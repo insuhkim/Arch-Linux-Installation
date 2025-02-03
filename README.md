@@ -68,14 +68,14 @@ sudo update-grub
 ```
 
 
-# python pip setup
+## python pip setup
 ```
 sudo pacman -S python3-pip
 ```
 
 
 
-# internet browser
+## internet browser
 ```
 sudo pacman -S vivaldi
 ```
@@ -159,3 +159,5 @@ sudo systemctl status zapret
 https://nowsci.com/winapps/kvm/
 
 https://forum.manjaro.org/t/unable-to-connect-to-libvirt-lxc/65177/1
+
+https://www.youtube.com/watch?v=p8cT57Tyckc
