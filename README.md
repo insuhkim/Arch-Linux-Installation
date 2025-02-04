@@ -37,6 +37,7 @@ Fcitx should be launched by KWin under KDE Wayland in order to use Wayland input
 
 in keyboard setting goto 'key bindings' and select 'make right alt a hangul key' and 'make right ctrl a hanja key' if you want
 
+https://blog.litehell.info/post/fcitx5_for_101_key_keyboard_kde_laptop
 
 log out and it will work
 
@@ -133,6 +134,11 @@ flatpak install flathub com.usebottles.bottles
 
 https://velog.io/@duboo/Ubuntu-20.04-%EC%B9%B4%EC%B9%B4%EC%98%A4%ED%86%A1-%EC%84%A4%EC%B9%98%EB%B0%A9%EB%B2%95-%ED%95%9C%EA%B8%80%EA%B9%A8%EC%A7%90-%EB%AC%B8%EC%A0%9C
 
+2. flatseal(enables bottles to access user file)
+```
+flatpak install flathub com.github.tchx84.Flatseal
+```
+execute flatseal and allow "All User Files" in bottles
 
 
 
