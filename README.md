@@ -12,14 +12,15 @@ yay
 sudo systemctl enable --now bluetooth
 ```
 
-## install some programs I need
+## tlp(laptop battery)
+https://linrunner.de/tlp/installation/arch.html
 ``` 
-sudo pacman -S neovim 
-sudo pacman -S wl-clipboard
-
+sudo pacman -S tlpui tlp-rdw
+sudo systemctl enable tlp.service
+sudo systemctl enable NetworkManager-dispatcher.service
+systemctl mask systemd-rfkill.service systemd-rfkill.socket
 ```
-https://askubuntu.com/questions/1486871/how-can-i-copy-and-paste-outside-of-neovim
-
+it conflicts with power-profiles-daemon, you might remove it
 ## setup fcitx5-hangul
 ```
 sudo pacman -S fcitx5-im fcitx5-hangul
@@ -45,11 +46,6 @@ https://blog.litehell.info/post/fcitx5_for_101_key_keyboard_kde_laptop
 log out and it will work
 
 
-## kde configuration with konsave
-```
-yay -S konsave
-```
-
 ## change grub resolution
 https://askubuntu.com/questions/54067/how-to-safely-change-grub2-screen-resolution
 https://askubuntu.com/questions/418666/update-grub-command-not-found
@@ -71,10 +67,19 @@ sudo chmod 755 /usr/sbin/update-grub
 sudo update-grub
 ```
 
+# personal programs I need
 
-## python pip setup
+``` 
+sudo pacman -S neovim 
+sudo pacman -S wl-clipboard
+
 ```
-sudo pacman -S python3-pip
+https://askubuntu.com/questions/1486871/how-can-i-copy-and-paste-outside-of-neovim
+
+
+## kde configuration with konsave
+```
+yay -S konsave
 ```
 
 
@@ -85,7 +90,6 @@ sudo pacman -S vivaldi
 ```
 
 
-# office tools 
 ## libre office
 ```
 sudo pacman -S libreoffice-fresh
@@ -102,7 +106,7 @@ sudo mv qt qt.bak
 ```
 
 
-# zsh
+## zsh
 ``` 
 sudo pacman -S zsh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
@@ -164,7 +168,7 @@ sudo systemctl start zapret
 sudo systemctl status zapret
 ```
 
-# winapps
+## winapps
 https://nowsci.com/winapps/kvm/
 
 https://forum.manjaro.org/t/unable-to-connect-to-libvirt-lxc/65177/1
@@ -172,3 +176,5 @@ https://forum.manjaro.org/t/unable-to-connect-to-libvirt-lxc/65177/1
 https://www.youtube.com/watch?v=p8cT57Tyckc
 
 https://svrforum.com/software/2054977
+
+https://askubuntu.com/questions/1036297/cant-start-kvm-guest-network-default-is-not-active
