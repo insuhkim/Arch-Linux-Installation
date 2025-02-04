@@ -131,7 +131,7 @@ flatpak install flathub com.usebottles.bottles
 ```
 
 
-
+https://velog.io/@duboo/Ubuntu-20.04-%EC%B9%B4%EC%B9%B4%EC%98%A4%ED%86%A1-%EC%84%A4%EC%B9%98%EB%B0%A9%EB%B2%95-%ED%95%9C%EA%B8%80%EA%B9%A8%EC%A7%90-%EB%AC%B8%EC%A0%9C
 
 
 
@@ -161,3 +161,5 @@ https://nowsci.com/winapps/kvm/
 https://forum.manjaro.org/t/unable-to-connect-to-libvirt-lxc/65177/1
 
 https://www.youtube.com/watch?v=p8cT57Tyckc
+
+https://svrforum.com/software/2054977
