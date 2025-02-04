@@ -37,6 +37,9 @@ Fcitx should be launched by KWin under KDE Wayland in order to use Wayland input
 
 in keyboard setting goto 'key bindings' and select 'make right alt a hangul key' and 'make right ctrl a hanja key' if you want
 
+add line 
+XMODIFIERS=@im=fcitx
+in /etc/environment
 https://blog.litehell.info/post/fcitx5_for_101_key_keyboard_kde_laptop
 
 log out and it will work
