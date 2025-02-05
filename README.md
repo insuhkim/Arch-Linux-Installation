@@ -69,18 +69,14 @@ sudo update-grub
 
 # personal programs I need
 
+## neovim
 ``` 
 sudo pacman -S neovim 
 sudo pacman -S wl-clipboard
-
 ```
 https://askubuntu.com/questions/1486871/how-can-i-copy-and-paste-outside-of-neovim
 
 
-## kde configuration with konsave
-```
-yay -S konsave
-```
 
 
 
@@ -106,27 +102,10 @@ sudo mv qt qt.bak
 ```
 
 
-## zsh
-``` 
-sudo pacman -S zsh
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-```
-log out and zsh will be default shell
-
-powerlevel10k theme
-```
-git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k"
-```
-change the value of ZSH_THEME in ~/.zshrc to "powerlevel10k/powerlevel10k"
-
-
-```
-sudo pacman -S ttf-jetbrains-mono-nerd
-```
 
 
 
-# bottles
+## bottles
 1. flatpak 
 ```
 sudo pacman -Syu
@@ -149,7 +128,7 @@ execute flatseal and allow "All User Files" in bottles
 
 
 
-# zapret
+## zapret
 download newest release
 https://github.com/bol-van/zapret
 
@@ -168,13 +147,40 @@ sudo systemctl start zapret
 sudo systemctl status zapret
 ```
 
+# TODO & not completed
+
 ## winapps
-https://nowsci.com/winapps/kvm/
+https://github.com/winapps-org/winapps?tab=readme-ov-file
 
-https://forum.manjaro.org/t/unable-to-connect-to-libvirt-lxc/65177/1
+## terminal setting
+### zsh
+``` 
+sudo pacman -S zsh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+```
+log out and zsh will be default shell
 
-https://www.youtube.com/watch?v=p8cT57Tyckc
+powerlevel10k theme
+```
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k"
+```
+change the value of ZSH_THEME in ~/.zshrc to "powerlevel10k/powerlevel10k"
 
-https://svrforum.com/software/2054977
 
-https://askubuntu.com/questions/1036297/cant-start-kvm-guest-network-default-is-not-active
+```
+sudo pacman -S ttf-jetbrains-mono-nerd
+```
+### atuin
+### chezmoi
+### btop
+### powertop
+### dust
+### bat
+### tldr
+### terminal window manager(tmux or zellij or wezterm)
+### eza
+
+### kde configuration with konsave
+```
+yay -S konsave
+```
