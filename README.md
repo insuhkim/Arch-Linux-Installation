@@ -156,6 +156,7 @@ sudo systemctl start zapret
 
 # TODO & not completed
 
+## Hybrid GPU(nvidia-prime or optimus)
 
 ## kde sweet theme
 
