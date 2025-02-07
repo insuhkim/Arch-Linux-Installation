@@ -17,6 +17,7 @@ yay
 sudo systemctl enable --now bluetooth
 ```
 
+
 ## [TLP for laptop battery](https://linrunner.de/tlp/installation/arch.html)
 ```bash
 sudo pacman -S tlpui tlp-rdw
@@ -24,7 +25,12 @@ sudo systemctl enable tlp.service
 sudo systemctl enable NetworkManager-dispatcher.service
 systemctl mask systemd-rfkill.service systemd-rfkill.socket
 ```
-it conflicts with power-profiles-daemon, you might remove it
+If it conflicts with power-profiles-daemon, remove it
+```bash
+sudo pacman -R power-profiles-daemon
+```
+
+
 ## Korean Input
 1. Install fcitx5 for hangul
 ```bash
@@ -34,7 +40,6 @@ fcitx5-configtool
 
 2. Inside configtool, add "hangul" input method   
 
-
 3. (optional) in global option change ctrl-space to shift-space
 
 4. Set input method to fcitx5
@@ -42,8 +47,7 @@ select fcitx5 in system settings -> keyboard -> virtual keyboard
 
 5. (optional) in keyboard setting goto 'key bindings' and select 'make right alt a hangul key' and 'make right ctrl a hanja key' if you want
 
-6. 
-Add next line to /etc/environment 
+6. Add next line to /etc/environment 
 ```bash
 XMODIFIERS=@im=fcitx
 ```
@@ -51,9 +55,7 @@ XMODIFIERS=@im=fcitx
 log out and it will work
 
 
-## change grub resolution
-<https://askubuntu.com/questions/54067/how-to-safely-change-grub2-screen-resolution>
-<https://askubuntu.com/questions/418666/update-grub-command-not-found>
+## [Change grub resolution](https://askubuntu.com/questions/54067/how-to-safely-change-grub2-screen-resolution)
 
 1. type videoinfo in grub console and check what resolutions are available
 2. open /etc/default/grub file with sudo
@@ -65,24 +67,25 @@ set -e
 exec grub-mkconfig -o /boot/grub/grub.cfg "$@"
 ```
 
-5. run 
+5. [Make update-grub command](https://askubuntu.com/questions/418666/update-grub-command-not-found)
+
 ```bash
 sudo chown root:root /usr/sbin/update-grub
 sudo chmod 755 /usr/sbin/update-grub
 sudo update-grub
 ```
 
+
 # personal programs I need
 
-## neovim
+## Terminal Setup
+### neovim
 ``` bash
 sudo pacman -S neovim 
 sudo pacman -S wl-clipboard
 ```
 
 <https://askubuntu.com/questions/1486871/how-can-i-copy-and-paste-outside-of-neovim>
-
-
 
 
 
@@ -136,7 +139,7 @@ execute flatseal and allow "All User Files" in bottles
 ## [winapps](https://github.com/winapps-org/winapps?tab=readme-ov-file)
 clone the project
 
-## zapret
+## Zapret(DPI)
 1. download newest release of [Zapret](https://github.com/bol-van/zapret/releases)
 
 2. unzip it and move folder to /opt/zapret
@@ -145,13 +148,10 @@ run
 ./blockcheck.sh
 ./install_easy.sh
 ```
-
-
 3. Enable zapret
 ```
 sudo systemctl enable zapret
 sudo systemctl start zapret
-sudo systemctl status zapret
 ```
 
 # TODO & not completed
