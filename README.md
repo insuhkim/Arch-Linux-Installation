@@ -20,7 +20,7 @@ sudo systemctl enable --now bluetooth
 
 ## [TLP for laptop battery](https://linrunner.de/tlp/installation/arch.html)
 ```bash
-sudo pacman -S tlpui tlp-rdw
+sudo pacman -S tlp tlp-rdw
 sudo systemctl enable tlp.service
 sudo systemctl enable NetworkManager-dispatcher.service
 systemctl mask systemd-rfkill.service systemd-rfkill.socket
@@ -88,6 +88,8 @@ sudo pacman -S wl-clipboard
 <https://askubuntu.com/questions/1486871/how-can-i-copy-and-paste-outside-of-neovim>
 
 
+## kde sweet theme
+see <https://www.youtube.com/watch?v=nmQn-JRwlo0>
 
 ## internet browser
 ```
@@ -124,6 +126,7 @@ flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.f
 restart
 ```
 flatpak install flathub com.usebottles.bottles
+flatpak override com.usebottles.bottles --user --filesystem=xdg-data/applications
 ```
 
 
@@ -158,7 +161,6 @@ sudo systemctl start zapret
 
 ## Hybrid GPU(nvidia-prime or optimus)
 
-## kde sweet theme
 
 ## terminal setting
 ### zsh & oh-my-zsh
