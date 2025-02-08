@@ -68,6 +68,54 @@ Paste the public key and save.
 ssh -T git@github.com
 ```
 
+
+## Fix Audio
+[Audio is too loud when volume is set greater than 0 in lenovo yoga](https://github.com/alsa-project/alsa-lib/issues/366)
+These three solution solve the problem, but I still don't know what solves
+1. in /usr/share/alsa-card-profile/mixer/paths/analog-input-aux.conf
+
+@@ -79,8 +79,6 @@
+override-map.2 = all-left,all-right
+
+\[Element Master]
+-switch = mute
+-volume = merge
+override-map.1 = all
+override-map.2 = all-left,all-right
+
+@@ -243,4 +241,8 @@
+override-map.1 = all-center
+override-map.2 = all-center,lfe
+
++\[Element Master]
++switch = mute
++volume = ignore
++
+.include analog-output.conf.common
+
+
+2. Add these three line in /usr/share/alsa-card-profile/mixer/paths/analog-input-aux.conf.common
+```
+[Element Master]
+switch = mute
+volume = ignore
+
+[Element PCM]
+switch = mute
+volume = merge
+override-map.1 = all
+override-map.2 = all-left,all-right
+```
+
+3. Add these parameters to GRUB_CMDLINE_LINUX_DEFAULT:
+```
+snd_hda_intel.dmic_detect=0 snd_hda_intel.model=lenovo
+```
+And update-grub
+```bash
+sudo grub-mkconfig -o /boot/grub/grub.cfg
+reboot
+```
 ## Korean Input
 1. Install fcitx5 for hangul
 ```bash
@@ -136,6 +184,7 @@ sudo pacman -S vivaldi
 
 ## libre office
 
+you can Install -still version if you want stable
 ```
 sudo pacman -S libreoffice-fresh
 ```
