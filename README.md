@@ -30,6 +30,43 @@ If it conflicts with power-profiles-daemon, remove it
 sudo pacman -R power-profiles-daemon
 ```
 
+## SSH key
+0. Ensure `git` and `openssh` are installed:
+```bash
+sudo pacman -S git openssh
+```
+
+1. Create a new SSH key pair
+```bash
+ssh-keygen -t ed25519 -C "insuhkim@naver.com"
+```
+
+2.  Add the SSH key to the SSH Agent
+Start the SSH agent:
+```bash
+eval "$(ssh-agent -s)"
+```
+Add the private key to the agent:
+```bash
+ssh-add ~/.ssh/id_ed25519
+```
+
+3. Add the SSH Key to GitHub
+
+Copy the public key
+```bash
+cat ~/.ssh/id_ed25519.pub  # Manually copy the output
+```
+
+Go to [GitHub SSH Key Settings](https://github.com/settings/ssh/new).
+
+Paste the public key and save.
+
+
+4. Verify SSH Connection (Optional)
+```bash
+ssh -T git@github.com
+```
 
 ## Korean Input
 1. Install fcitx5 for hangul
@@ -98,6 +135,7 @@ sudo pacman -S vivaldi
 
 
 ## libre office
+
 ```
 sudo pacman -S libreoffice-fresh
 ```
