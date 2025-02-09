@@ -1,10 +1,11 @@
-insuhkim's Endeavour OS setup
-========
 
+# EndeavourOS System Configuration Guide
 
+---
 
-# System Related
-## Update mirrors & Check Update
+## System Related
+
+### Update Mirrors & Check Updates
 ```bash
 reflector-simple
 eos-update
@@ -12,90 +13,61 @@ eos-update --aur
 yay
 ```
 
-## Enable Bluetooth 
+### Enable Bluetooth
 ```bash
 sudo systemctl enable --now bluetooth
 ```
 
+### Battery Management with TLP
+[TLP Official Installation Guide](https://linrunner.de/tlp/installation/arch.html)
 
-## [TLP for laptop battery](https://linrunner.de/tlp/installation/arch.html)
 ```bash
 sudo pacman -S tlp tlp-rdw
 sudo systemctl enable tlp.service
 sudo systemctl enable NetworkManager-dispatcher.service
-systemctl mask systemd-rfkill.service systemd-rfkill.socket
+sudo systemctl mask systemd-rfkill.service systemd-rfkill.socket
 ```
-If it conflicts with power-profiles-daemon, remove it
-```bash
-sudo pacman -R power-profiles-daemon
-```
+If it conflicts with `power-profiles-daemon`, remove it:
 
-## SSH key
-0. Ensure `git` and `openssh` are installed:
+### SSH Key Configuration
+1. Ensure `git` and `openssh` are installed:
 ```bash
 sudo pacman -S git openssh
 ```
-
-1. Create a new SSH key pair
+2. Create a new SSH key pair:
 ```bash
 ssh-keygen -t ed25519 -C "insuhkim@naver.com"
 ```
-
-2.  Add the SSH key to the SSH Agent
-Start the SSH agent:
+3. Add the SSH key to the SSH Agent:
 ```bash
 eval "$(ssh-agent -s)"
-```
-Add the private key to the agent:
-```bash
 ssh-add ~/.ssh/id_ed25519
 ```
-
-3. Add the SSH Key to GitHub
-
-Copy the public key
-```bash
-cat ~/.ssh/id_ed25519.pub  # Manually copy the output
-```
-
-Go to [GitHub SSH Key Settings](https://github.com/settings/ssh/new).
-
-Paste the public key and save.
-
-
-4. Verify SSH Connection (Optional)
+4. Add the SSH Key to GitHub:
+   - Copy the public key:
+   ```bash
+   cat ~/.ssh/id_ed25519.pub
+   ```
+   - Go to [GitHub SSH Key Settings](https://github.com/settings/ssh/new) and paste the key.
+5. Verify SSH Connection (Optional):
 ```bash
 ssh -T git@github.com
 ```
 
+### Fix Audio Issues
+[Audio is too loud when volume is set greater than 0 on Lenovo Yoga](https://github.com/alsa-project/alsa-lib/issues/366)
 
-## Fix Audio
-[Audio is too loud when volume is set greater than 0 in lenovo yoga](https://github.com/alsa-project/alsa-lib/issues/366)
-These three solution solve the problem, but I still don't know what solves
-1. in /usr/share/alsa-card-profile/mixer/paths/analog-input-aux.conf
-
-@@ -79,8 +79,6 @@
-override-map.2 = all-left,all-right
-
-\[Element Master]
--switch = mute
--volume = merge
-override-map.1 = all
-override-map.2 = all-left,all-right
-
-@@ -243,4 +241,8 @@
-override-map.1 = all-center
-override-map.2 = all-center,lfe
-
-+\[Element Master]
-+switch = mute
-+volume = ignore
-+
-.include analog-output.conf.common
-
-
-2. Add these three line in /usr/share/alsa-card-profile/mixer/paths/analog-input-aux.conf.common
+#### Solution 1: Modify `analog-input-aux.conf`
+Edit `/usr/share/alsa-card-profile/mixer/paths/analog-input-aux.conf` and modify these lines:
+```diff
+- switch = mute
+- volume = merge
++ switch = mute
++ volume = ignore
 ```
+#### Solution 2: Modify `analog-input-aux.conf.common`
+Add these three lines above the `Element PCM`:
+```bash
 [Element Master]
 switch = mute
 volume = ignore
@@ -106,178 +78,157 @@ volume = merge
 override-map.1 = all
 override-map.2 = all-left,all-right
 ```
-
-3. Add these parameters to GRUB_CMDLINE_LINUX_DEFAULT:
-```
+#### Solution 3: Modify GRUB
+Add the following parameters to `GRUB_CMDLINE_LINUX_DEFAULT`:
+```bash
 snd_hda_intel.dmic_detect=0 snd_hda_intel.model=lenovo
 ```
-And update-grub
+Update GRUB:
 ```bash
 sudo grub-mkconfig -o /boot/grub/grub.cfg
 reboot
 ```
-## Korean Input
-1. Install fcitx5 for hangul
+
+---
+
+## Korean Input Configuration
+1. Install `fcitx5` for Hangul support:
 ```bash
 sudo pacman -S fcitx5-im fcitx5-hangul
 fcitx5-configtool
 ```
-
-2. Inside configtool, add "hangul" input method   
-
-3. (optional) in global option change ctrl-space to shift-space
-
-4. Set input method to fcitx5
-select fcitx5 in system settings -> keyboard -> virtual keyboard 
-
-5. (optional) in keyboard setting goto 'key bindings' and select 'make right alt a hangul key' and 'make right ctrl a hanja key' if you want
-
-6. Add next line to /etc/environment 
+2. Inside config tool, add "hangul" input method.
+3. (Optional) Change `Ctrl+Space` to `Shift+Space` in global options.
+4. Set input method to `fcitx5` in system settings.
+5. (Optional) In keyboard settings, map `Right Alt` to Hangul and `Right Ctrl` to Hanja.
+6. Add the following line to `/etc/environment`:
 ```bash
 XMODIFIERS=@im=fcitx
 ```
-<https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#KDE_Plasma>   
-log out and it will work
+Refer to [this guide](https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#KDE_Plasma) for more details.
 
+---
 
-## [Change grub resolution](https://askubuntu.com/questions/54067/how-to-safely-change-grub2-screen-resolution)
+## Change GRUB Resolution
+[Reference](https://askubuntu.com/questions/54067/how-to-safely-change-grub2-screen-resolution)
 
-1. type videoinfo in grub console and check what resolutions are available
-2. open /etc/default/grub file with sudo
-3. change GRUB_GFXMODE with the resolution you want
-4. make update-grub command in /usr/sbin/update-grub
+1. Type `videoinfo` in the GRUB console to check available resolutions.
+2. Open `/etc/default/grub` and modify `GRUB_GFXMODE` with your desired resolution.
+3. Create an update-grub command:
 ```bash
 #!/bin/sh
 set -e
 exec grub-mkconfig -o /boot/grub/grub.cfg "$@"
 ```
-
-5. [Make update-grub command](https://askubuntu.com/questions/418666/update-grub-command-not-found)
-
+4. Ensure correct permissions:
 ```bash
 sudo chown root:root /usr/sbin/update-grub
 sudo chmod 755 /usr/sbin/update-grub
 sudo update-grub
 ```
 
+---
 
-# personal programs I need
+## Personal Programs
 
-## Terminal Setup
-### neovim
-``` bash
-sudo pacman -S neovim 
-sudo pacman -S wl-clipboard
+### Terminal Setup
+#### Neovim
+```bash
+sudo pacman -S neovim wl-clipboard
 ```
+[How to enable clipboard support](https://askubuntu.com/questions/1486871/how-can-i-copy-and-paste-outside-of-neovim)
 
-<https://askubuntu.com/questions/1486871/how-can-i-copy-and-paste-outside-of-neovim>
-
-
-## kde sweet theme
-see <https://www.youtube.com/watch?v=nmQn-JRwlo0>
-
-## internet browser
+#### Useful Terminal Programs
+```bash
+sudo pacman -S btop dust bat tldr lsd
 ```
+- `btop` - Resource monitor
+- `dust` - Disk usage analyzer
+- `bat` - Enhanced `cat`
+- `tldr` - Simplified `man` pages
+- `lsd` - Better `ls`
+
+#### Other Tools
+- `atuin`
+- `chezmoi`
+- `powertop`
+- Terminal window managers: `tmux`, `zellij`, or `wezterm`
+- KDE configuration with `konsave`:
+#### KDE Sweet Theme
+[YouTube Guide](https://www.youtube.com/watch?v=nmQn-JRwlo0)
+
+
+### Internet Browser
+```bash
 sudo pacman -S vivaldi
 ```
 
-
-## libre office
-
-you can Install -still version if you want stable
-```
+### LibreOffice
+```bash
 sudo pacman -S libreoffice-fresh
 ```
 
-## hancom office
-```
+### Hancom Office
+```bash
 yay -S hoffice
-```
-korean input
-```
-cd /opt/hnc/hoffice11/Bin/
-sudo mv qt qt.bak
+sudo mv /opt/hnc/hoffice11/Bin/qt{,.bak}
 ```
 
-
-
-
-
-## bottles
-1. flatpak 
-```
+### Bottles (For Running Windows Apps)
+```bash
 sudo pacman -Syu
 sudo pacman -S flatpak
 flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-```
-restart
-```
 flatpak install flathub com.usebottles.bottles
 flatpak override com.usebottles.bottles --user --filesystem=xdg-data/applications
 ```
-
-
-https://velog.io/@duboo/Ubuntu-20.04-%EC%B9%B4%EC%B9%B4%EC%98%A4%ED%86%A1-%EC%84%A4%EC%B9%98%EB%B0%A9%EB%B2%95-%ED%95%9C%EA%B8%80%EA%B9%A8%EC%A7%90-%EB%AC%B8%EC%A0%9C
-
-2. flatseal(enables bottles to access user file)
-```
+For file access permissions, install Flatseal:
+```bash
 flatpak install flathub com.github.tchx84.Flatseal
 ```
-execute flatseal and allow "All User Files" in bottles
+Enable "All User Files" in Flatseal for Bottles.
 
+### [WinApps](https://github.com/winapps-org/winapps?tab=readme-ov-file)
+Clone the project and follow the installation steps.
 
-## [winapps](https://github.com/winapps-org/winapps?tab=readme-ov-file)
-clone the project
-
-## Zapret(DPI)
-1. download newest release of [Zapret](https://github.com/bol-van/zapret/releases)
-
-2. unzip it and move folder to /opt/zapret
-run
+### Zapret (DPI Circumvention)
+1. Download the latest release from [Zapret](https://github.com/bol-van/zapret/releases)
+2. Unzip and move it to `/opt/zapret`
+3. Run:
 ```bash
 ./blockcheck.sh
 ./install_easy.sh
 ```
-3. Enable zapret
-```
+4. Enable Zapret:
+```bash
 sudo systemctl enable zapret
 sudo systemctl start zapret
 ```
 
-# TODO & not completed
+---
 
-## Hybrid GPU(nvidia-prime or optimus)
+## TODO & Not Completed
 
-
-## terminal setting
-### zsh & oh-my-zsh
-``` 
+### Hybrid GPU (NVIDIA Prime or Optimus)
+### Terminal Settings
+#### Zsh & Oh-My-Zsh
+```bash
 sudo pacman -S zsh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 ```
-log out and zsh will be default shell
+Set default shell to Zsh by logging out and back in.
 
-powerlevel10k theme
+#### Powerlevel10k Theme
 ```bash
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k"
 ```
-change the value of ZSH_THEME in ~/.zshrc to "powerlevel10k/powerlevel10k"
-
-
+Modify `~/.zshrc`:
+```bash
+ZSH_THEME="powerlevel10k/powerlevel10k"
 ```
+Install Nerd Font:
+```bash
 sudo pacman -S ttf-jetbrains-mono-nerd
 ```
-### atuin
-### chezmoi
-### btop
-### powertop
-### dust
-### bat
-### tldr
-### terminal window manager(tmux or zellij or wezterm)
-### eza or lsd
 
-### kde configuration with konsave
-```
-yay -S konsave
-```
+
