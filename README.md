@@ -60,17 +60,31 @@ ssh -T git@github.com
 #### Solution 1: Modify `analog-input-aux.conf`
 Edit `/usr/share/alsa-card-profile/mixer/paths/analog-input-aux.conf` and modify these lines:
 ```diff
-- switch = mute
-- volume = merge
-+ switch = mute
-+ volume = ignore
+@@ -79,8 +79,6 @@
+override-map.2 = all-left,all-right
+
+[Element Master]
+-switch = mute
+-volume = merge
+override-map.1 = all
+override-map.2 = all-left,all-right
+
+@@ -243,4 +241,8 @@
+override-map.1 = all-center
+override-map.2 = all-center,lfe
+
++[Element Master]
++switch = mute
++volume = ignore
++
+.include analog-output.conf.common
 ```
 #### Solution 2: Modify `analog-input-aux.conf.common`
 Add these three lines above the `Element PCM`:
-```bash
-[Element Master]
-switch = mute
-volume = ignore
+```diff
++[Element Master]
++switch = mute
++volume = ignore
 
 [Element PCM]
 switch = mute
@@ -147,14 +161,20 @@ sudo pacman -S btop dust bat tldr lsd
 - `bat` - Enhanced `cat`
 - `tldr` - Simplified `man` pages
 - `lsd` - Better `ls`
+- `eza` - Also better `ls`
+- `powertop` - Power usage analyzer
 
 #### Other Tools
 - `atuin`
-- `chezmoi`
-- `powertop`
 - Terminal window managers: `tmux`, `zellij`, or `wezterm`
 - KDE configuration with `konsave`:
-#### KDE Sweet Theme
+
+### Dotfiles with [Chezmoi](https://www.chezmoi.io)
+```bash
+chezmoi init git@github.com:$GITHUB_USERNAME/dotfiles.git
+```
+
+### KDE Sweet Theme
 [YouTube Guide](https://www.youtube.com/watch?v=nmQn-JRwlo0)
 
 
@@ -165,13 +185,7 @@ sudo pacman -S vivaldi
 
 ### LibreOffice
 ```bash
-sudo pacman -S libreoffice-fresh
-```
-
-### Hancom Office
-```bash
-yay -S hoffice
-sudo mv /opt/hnc/hoffice11/Bin/qt{,.bak}
+sudo pacman -S libreoffice-still
 ```
 
 ### Bottles (For Running Windows Apps)
@@ -231,4 +245,11 @@ Install Nerd Font:
 sudo pacman -S ttf-jetbrains-mono-nerd
 ```
 
+
+## Deprecated
+### Hancom Office
+```bash
+yay -S hoffice
+sudo mv /opt/hnc/hoffice11/Bin/qt{,.bak}
+```
 
