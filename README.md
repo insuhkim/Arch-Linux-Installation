@@ -154,7 +154,7 @@ sudo pacman -S neovim wl-clipboard
 
 #### Useful Terminal Programs
 ```bash
-sudo pacman -S btop dust bat tldr lsd
+sudo pacman -S btop dust bat tldr lsd zoxide
 ```
 - `btop` - Resource monitor
 - `dust` - Disk usage analyzer
@@ -163,6 +163,7 @@ sudo pacman -S btop dust bat tldr lsd
 - `lsd` - Better `ls`
 - `eza` - Also better `ls`
 - `powertop` - Power usage analyzer
+- `zoxide` - Better `cd`
 
 #### Other Tools
 - `atuin`
