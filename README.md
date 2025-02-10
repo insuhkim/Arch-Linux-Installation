@@ -29,31 +29,6 @@ sudo systemctl mask systemd-rfkill.service systemd-rfkill.socket
 ```
 If it conflicts with `power-profiles-daemon`, remove it:
 
-### SSH Key Configuration
-1. Ensure `git` and `openssh` are installed:
-```bash
-sudo pacman -S git openssh
-```
-2. Create a new SSH key pair:
-```bash
-ssh-keygen -t ed25519 -C "insuhkim@naver.com"
-```
-3. Add the SSH key to the SSH Agent:
-```bash
-eval "$(ssh-agent -s)"
-ssh-add ~/.ssh/id_ed25519
-```
-4. Add the SSH Key to GitHub:
-   - Copy the public key:
-   ```bash
-   cat ~/.ssh/id_ed25519.pub
-   ```
-   - Go to [GitHub SSH Key Settings](https://github.com/settings/ssh/new) and paste the key.
-5. Verify SSH Connection (Optional):
-```bash
-ssh -T git@github.com
-```
-
 ### Fix Audio Issues
 [Audio is too loud when volume is set greater than 0 on Lenovo Yoga](https://github.com/alsa-project/alsa-lib/issues/366)
 
@@ -103,9 +78,7 @@ sudo grub-mkconfig -o /boot/grub/grub.cfg
 reboot
 ```
 
----
-
-## Korean Input Configuration
+### Korean Input Configuration
 1. Install `fcitx5` for Hangul support:
 ```bash
 sudo pacman -S fcitx5-im fcitx5-hangul
@@ -121,9 +94,7 @@ XMODIFIERS=@im=fcitx
 ```
 Refer to [this guide](https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#KDE_Plasma) for more details.
 
----
-
-## Change GRUB Resolution
+### Change GRUB Resolution
 [Reference](https://askubuntu.com/questions/54067/how-to-safely-change-grub2-screen-resolution)
 
 1. Type `videoinfo` in the GRUB console to check available resolutions.
@@ -145,7 +116,88 @@ sudo update-grub
 
 ## Personal Programs
 
+### Docker 
+```bash
+sudo pacman -S docker
+sudo systemctl enable --now docker.service
+sudo usermod -aG docker $USER
+```
+Restart the computer
+### open-webui
+Install with this command:
+```bash
+docker run -d -p 3000:8080 --add-host=host.docker.internal:host-gateway -v open-webui:/app/backend/data --name open-webui --restart always ghcr.io/open-webui/open-webui:main
+```
+After installation, you can access Open WebUI at <http://localhost:3000>.
+
+Start/Stop Container
+```bash
+docker stop openwebui
+docker start openwebui
+```
+
+### WinApps
+Clone the project and follow the [installation steps](https://github.com/winapps-org/winapps?tab=readme-ov-file#installation).
+The descriptions below are only a rough guide. 
+1. Install Docker Engine
+```bash
+# Install Docker and docker-compose
+sudo pacman -S docker docker-compose
+
+# Enable and start Docker service
+sudo systemctl enable --now docker.service
+
+# Add user to docker group
+sudo usermod -aG docker $USER
+
+# Logout and login again to apply group changes
+```
+2. Install Windows
+Follow this [guide](https://github.com/winapps-org/winapps/blob/main/docs/docker.md#installing-windows)
+
+3. Install Dependencies
+```bash
+sudo pacman -Syu --needed -y curl dialog freerdp git iproute2 libnotify gnu-netcat
+```
+
+4. Create A WinApps Configuration File at `~/.config/winapps/winapps.conf`
+
+5. Test FreeRDP
+```bash
+xfreerdp3 /u:"MyWindowsUser" /p:"MyWindowsPassword" /v:192.168.122.2 /cert:tofu
+```
+
+6. Run FreeRDP
+```bash
+bash <(curl https://raw.githubusercontent.com/winapps-org/winapps/main/setup.sh)
+```
+
 ### Terminal Setup
+#### SSH Key Configuration
+1. Ensure `git` and `openssh` are installed:
+```bash
+sudo pacman -S git openssh
+```
+2. Create a new SSH key pair:
+```bash
+ssh-keygen -t ed25519 -C "insuhkim@naver.com"
+```
+3. Add the SSH key to the SSH Agent:
+```bash
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_ed25519
+```
+4. Add the SSH Key to GitHub:
+   - Copy the public key:
+   ```bash
+   cat ~/.ssh/id_ed25519.pub
+   ```
+   - Go to [GitHub SSH Key Settings](https://github.com/settings/ssh/new) and paste the key.
+5. Verify SSH Connection (Optional):
+```bash
+ssh -T git@github.com
+```
+
 #### Neovim
 ```bash
 sudo pacman -S neovim wl-clipboard
@@ -164,13 +216,14 @@ sudo pacman -S btop dust bat tldr lsd zoxide
 - `eza` - Also better `ls`
 - `powertop` - Power usage analyzer
 - `zoxide` - Better `cd`
+- `bottom` - Also resource monitor
 
 #### Other Tools
 - `atuin`
 - Terminal window managers: `tmux`, `zellij`, or `wezterm`
 - KDE configuration with `konsave`:
 
-### Dotfiles with [Chezmoi](https://www.chezmoi.io)
+#### Dotfiles with [Chezmoi](https://www.chezmoi.io)
 ```bash
 chezmoi init git@github.com:$GITHUB_USERNAME/dotfiles.git
 ```
@@ -202,9 +255,6 @@ For file access permissions, install Flatseal:
 flatpak install flathub com.github.tchx84.Flatseal
 ```
 Enable "All User Files" in Flatseal for Bottles.
-
-### [WinApps](https://github.com/winapps-org/winapps?tab=readme-ov-file)
-Clone the project and follow the installation steps.
 
 ### Zapret (DPI Circumvention)
 1. Download the latest release from [Zapret](https://github.com/bol-van/zapret/releases)
