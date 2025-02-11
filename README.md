@@ -132,8 +132,8 @@ After installation, you can access Open WebUI at <http://localhost:3000>.
 
 Start/Stop Container
 ```bash
-docker stop openwebui
-docker start openwebui
+docker stop open-webui
+docker start open-webui
 ```
 
 ### WinApps
