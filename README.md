@@ -280,7 +280,7 @@ sudo pacman -S neovim wl-clipboard
 #### Useful Terminal Programs
 
 ```bash
-sudo pacman -S btop dust bat tldr lsd zoxide
+sudo pacman -S btop dust bat tldr lsd zoxide fastfetch
 ```
 
 - `btop` - Resource monitor
@@ -292,12 +292,21 @@ sudo pacman -S btop dust bat tldr lsd zoxide
 - `powertop` - Power usage analyzer
 - `zoxide` - Better `cd`
 - `bottom` - Also resource monitor
+- `fastfetch`
 
 #### Other Tools
 
 - `atuin`
 - Terminal window managers: `tmux`, `zellij`, or `wezterm`
 - KDE configuration with `konsave`:
+
+#### fastfetch on StartUp
+
+Add this line to Settings - Profile - Command
+
+```bash
+/bin/zsh -c "fastfetch; zsh"
+```
 
 #### Dotfiles with [Chezmoi](https://www.chezmoi.io)
 
