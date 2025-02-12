@@ -280,7 +280,7 @@ sudo pacman -S neovim wl-clipboard
 #### Useful Terminal Programs
 
 ```bash
-sudo pacman -S btop dust bat tldr lsd zoxide fastfetch
+sudo pacman -S btop dust bat tldr lsd zoxide fastfetch tmux
 ```
 
 - `btop` - Resource monitor
@@ -293,6 +293,7 @@ sudo pacman -S btop dust bat tldr lsd zoxide fastfetch
 - `zoxide` - Better `cd`
 - `bottom` - Also resource monitor
 - `fastfetch`
+- `tmux`
 
 #### Other Tools
 
