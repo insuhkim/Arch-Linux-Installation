@@ -364,6 +364,9 @@ sudo pacman -S vivaldi
 sudo pacman -S libreoffice-still
 ```
 
+Goto View -> User interface and Select `Tabbed`, apply all.
+Goto Settings -> Load/Save -> General and change default file format to xlsx/pptx/docx.
+
 ### Bottles (For Running Windows Apps)
 
 ```bash
