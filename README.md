@@ -182,11 +182,10 @@ docker run -d -p 3000:8080 --add-host=host.docker.internal:host-gateway -v open-
 
 After installation, you can access Open WebUI at <http://localhost:3000>.
 
-Start/Stop Container
+If you don't want running on startup, you can type
 
 ```bash
-docker stop open-webui
-docker start open-webui
+docker update --restart=no open-webui
 ```
 
 ### WinApps
