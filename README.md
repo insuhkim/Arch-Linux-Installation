@@ -31,7 +31,7 @@ sudo systemctl enable NetworkManager-dispatcher.service
 sudo systemctl mask systemd-rfkill.service systemd-rfkill.socket
 ```
 
-If it conflicts with `power-profiles-daemon`, remove it:
+If it conflicts with `power-profiles-daemon`, remove it.
 
 ### Fix Audio Issues
 
@@ -350,6 +350,8 @@ Enable "All User Files" in Flatseal for Bottles.
 
 ### Zapret (DPI Circumvention)
 
+#### Download Manually
+
 1. Download the latest release from [Zapret](https://github.com/bol-van/zapret/releases)
 2. Unzip and move it to `/opt/zapret`
 3. Run:
@@ -364,6 +366,12 @@ Enable "All User Files" in Flatseal for Bottles.
 ```bash
 sudo systemctl enable zapret
 sudo systemctl start zapret
+```
+
+#### Download from AUR
+
+```bash
+yay -S zapret
 ```
 
 ---
