@@ -319,6 +319,40 @@ chezmoi init git@github.com:$GITHUB_USERNAME/dotfiles.git
 
 [YouTube Guide](https://www.youtube.com/watch?v=nmQn-JRwlo0)
 
+### KDE Wallpaper Engine
+
+See [this plugin](https://github.com/catsout/wallpaper-engine-kde-plugin)
+
+Install Dependencies
+
+```bash
+sudo pacman -S extra-cmake-modules plasma-framework5 gst-libav ninja \
+base-devel mpv python-websockets qt5-declarative qt5-websockets qt5-webchannel vulkan-headers cmake
+```
+
+Build and Install
+
+```bash
+# Download source
+git clone https://github.com/catsout/wallpaper-engine-kde-plugin.git
+cd wallpaper-engine-kde-plugin
+
+# Download submodule
+git submodule update --init --force --recursive
+
+# Configure, build and install
+# 'USE_PLASMAPKG=ON': using kpackagetool tool to install plugin
+cmake -B build -S . -GNinja -DUSE_PLASMAPKG=ON
+cmake --build build
+cmake --install build
+
+# Install package (ignore if USE_PLASMAPKG=OFF for system-wide installation)
+cmake --build build --target install_pkg
+```
+
+Goto Settings -> Wallpaper and Select Wallpaper Engine for `wallpaper type`.
+Select Steamlibrary which is `~/.local/share/Steam` by default.
+
 ### Internet Browser
 
 ```bash
