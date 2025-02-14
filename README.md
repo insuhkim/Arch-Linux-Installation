@@ -158,6 +158,58 @@ sudo chmod +x /usr/share/sddm/scripts/Xsetup
 sudo systemctl restart sddm
 ```
 
+### WebCam Setting
+
+Check Hardware Detection
+
+```bash
+lsusb
+```
+
+Most WebCams use the `uvcvideo` driver. Ensure it's loaded:
+
+```bash
+lsmod | grep uvcvideo
+```
+
+If not, load it:
+
+```bash
+sudo modprobe uvcvideo
+```
+
+Check kernel messages for errors:
+
+```bash
+dmesg | tail
+```
+
+```bash
+
+Install Necessary Tools
+
+```bash
+sudo pacman -S v4l-utils cheese mpv
+```
+
+Permission
+
+```bash
+sudo usermod -aG video $USER
+```
+
+Test the webcam
+
+```bash
+mpv av://v4l2:/dev/video0
+```
+
+```bash
+cheese
+```
+
+```
+
 ---
 
 ## Personal Programs
@@ -233,6 +285,13 @@ bash <(curl https://raw.githubusercontent.com/winapps-org/winapps/main/setup.sh)
 
 ### Terminal Setup
 
+#### Ghostty
+
+```bash
+sudo pacman -S ghostty
+```
+
+```bash
 #### SSH Key Configuration
 
 1. Ensure `git` and `openssh` are installed:
