@@ -20,7 +20,7 @@ yay
 sudo systemctl enable --now bluetooth
 ```
 
-### Battery Management with TLP
+### TLP battery management
 
 [TLP Official Installation Guide](https://linrunner.de/tlp/installation/arch.html)
 
@@ -155,7 +155,9 @@ sudo update-grub
 sudo update-grub
 ```
 
-### Change Login Screen Resolution
+Make sure the output of this command contains `Found background : /path/to/image.png`
+
+### Change Login Screen Resolution(SDDM)
 
 Run `xrandr` in your user session to find your display output name (e.g., HDMI-1) and supported resolutions.
 
@@ -307,7 +309,6 @@ bash <(curl https://raw.githubusercontent.com/winapps-org/winapps/main/setup.sh)
 sudo pacman -S ghostty
 ```
 
-```bash
 #### SSH Key Configuration
 
 1. Ensure `git` and `openssh` are installed:
@@ -461,6 +462,11 @@ flatpak install flathub com.github.tchx84.Flatseal
 ```
 
 Enable "All User Files" in Flatseal for Bottles.
+
+#### Kakaotalk
+
+Download cjk fonts in Bottles -> dependencies.
+Download the latest version from [KakaoTalk](https://www.kakaocorp.com/page/service/service/KakaoTalk) and install it using Bottles.
 
 ### Zapret (DPI Circumvention)
 
