@@ -436,6 +436,12 @@ Select Steamlibrary which is `~/.local/share/Steam` by default.
 sudo pacman -S vivaldi
 ```
 
+### Snapshot manager
+
+```bash
+sudo pacman -S timeshift
+```
+
 ### LibreOffice
 
 ```bash
