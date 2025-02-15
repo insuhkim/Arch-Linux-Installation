@@ -362,18 +362,18 @@ sudo pacman -S btop dust bat tldr lsd zoxide fastfetch tmux
 - `bat` - Enhanced `cat`
 - `tldr` - Simplified `man` pages
 - `lsd` - Better `ls`
-- `eza` - Also better `ls`
 - `powertop` - Power usage analyzer
 - `zoxide` - Better `cd`
-- `bottom` - Also resource monitor
-- `fastfetch`
-- `tmux`
+- `fastfetch` - System information tool
+- `tmux` - Terminal multiplexer
 
 #### Other Tools
 
-- `atuin`
+- `bottom` - Also resource monitor
+- `eza` - Also better `ls`
+- `atuin` - Command history manager
 - Terminal window managers: `tmux`, `zellij`, or `wezterm`
-- KDE configuration with `konsave`:
+- `konsave` - kde configuration saver
 
 #### fastfetch on StartUp
 
@@ -389,11 +389,13 @@ Add this line to Settings - Profile - Command
 chezmoi init git@github.com:$GITHUB_USERNAME/dotfiles.git
 ```
 
-### KDE Sweet Theme
+### KDE Configuration
+
+#### KDE Sweet Theme
 
 [YouTube Guide](https://www.youtube.com/watch?v=nmQn-JRwlo0)
 
-### KDE Wallpaper Engine
+#### KDE Wallpaper Engine
 
 See [this plugin](https://github.com/catsout/wallpaper-engine-kde-plugin)
 
@@ -462,6 +464,12 @@ Enable "All User Files" in Flatseal for Bottles.
 
 ### Zapret (DPI Circumvention)
 
+#### Download from AUR(recommended)
+
+```bash
+yay -S zapret
+```
+
 #### Download Manually
 
 1. Download the latest release from [Zapret](https://github.com/bol-van/zapret/releases)
@@ -480,17 +488,16 @@ sudo systemctl enable zapret
 sudo systemctl start zapret
 ```
 
-#### Download from AUR
+---
 
-```bash
-yay -S zapret
-```
+## TODO
+
+- pinch to zoom
+- Hybrid GPU (NVIDIA Prime or Optimus)
 
 ---
 
-## TODO & Not Completed
-
-### Hybrid GPU (NVIDIA Prime or Optimus)
+## Deprecated
 
 ### Terminal Settings
 
@@ -520,8 +527,6 @@ Install Nerd Font:
 ```bash
 sudo pacman -S ttf-jetbrains-mono-nerd
 ```
-
-## Deprecated
 
 ### Hancom Office
 
