@@ -115,13 +115,11 @@ XMODIFIERS=@im=fcitx
 
 Refer to [this guide](https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#KDE_Plasma) for more details.
 
-### Change GRUB Resolution
+### GRUB Configuration
 
-[Reference](https://askubuntu.com/questions/54067/how-to-safely-change-grub2-screen-resolution)
+#### Make `update-grub` command
 
-1. Type `videoinfo` in the GRUB console to check available resolutions.
-2. Open `/etc/default/grub` and modify `GRUB_GFXMODE` with your desired resolution.
-3. Create an update-grub command:
+Create `/usr/sbin/update-grub` with the following content:
 
 ```bash
 #!/bin/sh
@@ -129,11 +127,31 @@ set -e
 exec grub-mkconfig -o /boot/grub/grub.cfg "$@"
 ```
 
-4. Ensure correct permissions:
+Give it executable permissions:
 
 ```bash
 sudo chown root:root /usr/sbin/update-grub
 sudo chmod 755 /usr/sbin/update-grub
+```
+
+#### Change GRUB Resolution
+
+[Reference](https://askubuntu.com/questions/54067/how-to-safely-change-grub2-screen-resolution)
+
+1. Type `videoinfo` in the GRUB console to check available resolutions.
+2. Open `/etc/default/grub` and modify `GRUB_GFXMODE` with your desired resolution.
+3. run this command to set the resolution:
+
+```bash
+sudo update-grub
+```
+
+#### Change GRUB Background
+
+1. open `/etc/default/grub` and modify `GRUB_BACKGROUND` with your desired image path.
+2. then run this command to set the background:
+
+```bash
 sudo update-grub
 ```
 
