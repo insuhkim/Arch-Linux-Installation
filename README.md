@@ -473,6 +473,7 @@ Enable "All User Files" in Flatseal for Bottles.
 
 Download cjk fonts in Bottles -> dependencies.
 Download the latest version from [KakaoTalk](https://www.kakaocorp.com/page/service/service/KakaoTalk) and install it using Bottles.
+`Cafe` runner is better than `Soda`runner for KakaoTalk.
 
 ### Zapret (DPI Circumvention)
 
