@@ -226,8 +226,6 @@ mpv av://v4l2:/dev/video0
 cheese
 ```
 
-```
-
 ---
 
 ## Personal Programs
