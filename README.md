@@ -355,7 +355,7 @@ sudo pacman -S neovim wl-clipboard
 #### Useful Terminal Programs
 
 ```bash
-sudo pacman -S btop dust bat tldr lsd zoxide fastfetch tmux
+sudo pacman -S btop dust bat tldr lsd zoxide fastfetch tmux yazi
 ```
 
 - `btop` - Resource monitor
@@ -367,6 +367,7 @@ sudo pacman -S btop dust bat tldr lsd zoxide fastfetch tmux
 - `zoxide` - Better `cd`
 - `fastfetch` - System information tool
 - `tmux` - Terminal multiplexer
+- `yazi` - Terminal file manager
 
 #### Other Tools
 
@@ -395,6 +396,14 @@ chezmoi init git@github.com:$GITHUB_USERNAME/dotfiles.git
 #### KDE Sweet Theme
 
 [YouTube Guide](https://www.youtube.com/watch?v=nmQn-JRwlo0)
+
+#### Klassy
+
+[Github link](https://github.com/paulmcauley/klassy)
+
+```bash
+yay -S klassy
+```
 
 #### KDE Wallpaper Engine
 
