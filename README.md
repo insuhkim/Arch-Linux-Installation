@@ -323,10 +323,10 @@ bash <(curl https://raw.githubusercontent.com/winapps-org/winapps/main/setup.sh)
 
 ### Terminal Setup
 
-#### Ghostty
+#### Kitty
 
 ```bash
-sudo pacman -S ghostty
+sudo pacman -S kitty
 ```
 
 #### SSH Key Configuration
@@ -371,6 +371,12 @@ sudo pacman -S neovim wl-clipboard
 ```
 
 [How to enable clipboard support](https://askubuntu.com/questions/1486871/how-can-i-copy-and-paste-outside-of-neovim)
+
+in `/etc/environment`, change `EDITOR` to `nvim`
+
+```bash
+EDITOR=nvim
+```
 
 #### Useful Terminal Programs
 
