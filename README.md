@@ -106,7 +106,8 @@ reboot
 
 ### Chaotic AUR
 
-[Chaotic AUR document](https://aur.chaotic.cx/docs)
+NOTE: key can change, please refer to [Chaotic AUR document](https://aur.chaotic.cx/docs)
+
 run this command to install Chaotic AUR:
 
 ```bash
