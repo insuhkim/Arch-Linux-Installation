@@ -418,7 +418,7 @@ sudo pacman -S btop dust bat tldr lsd zoxide fastfetch tmux yazi
 - Terminal window managers: `tmux`, `zellij`, or `wezterm`
 - `konsave` - kde configuration saver
 
-#### fastfetch on StartUp
+#### fastfetch on StartUp(Konsole)
 
 Add this line to Settings - Profile - Command
 
@@ -484,6 +484,12 @@ Select Steamlibrary which is `~/.local/share/Steam` by default.
 
 ```bash
 sudo pacman -S vivaldi
+```
+
+### Disk Usage analyzer
+
+```bash
+sudo pacman -S filelight
 ```
 
 ### Obsidian
