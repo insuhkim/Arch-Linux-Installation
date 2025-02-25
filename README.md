@@ -127,18 +127,18 @@ Include = /etc/pacman.d/chaotic-mirrorlist
 
 ### Korean Input Configuration
 
-1. Install `fcitx5` for Hangul support:
+- Install `fcitx5` for Hangul support:
 
 ```bash
 sudo pacman -S fcitx5-im fcitx5-hangul
 fcitx5-configtool
 ```
 
-2. Inside config tool, add "hangul" input method.
-3. (Optional) Change `Ctrl+Space` to `Shift+Space` in global options.
-4. Set input method to `fcitx5` in system settings.
-5. (Optional) In keyboard settings, map `Right Alt` to Hangul and `Right Ctrl` to Hanja.
-6. Add the following line to `/etc/environment`:
+- Inside config tool, add "hangul" input method.
+- (Optional) Change `Ctrl+Space` to `Shift+Space` in global options.
+- Set input method to `fcitx5` in system settings.
+- (Optional) In keyboard settings, map `Right Alt` to Hangul and `Right Ctrl` to Hanja.
+- Add the following line to `/etc/environment`:
 
 ```bash
 XMODIFIERS=@im=fcitx
@@ -187,6 +187,10 @@ sudo update-grub
 ```
 
 Make sure the output of this command contains `Found background : /path/to/image.png`
+
+#### Advanced GRUB theme configuration
+
+install `grub-customizer`
 
 ### Change Login Screen Resolution(SDDM)
 
@@ -481,6 +485,18 @@ Select Steamlibrary which is `~/.local/share/Steam` by default.
 ```bash
 sudo pacman -S vivaldi
 ```
+
+### Obsidian
+
+```bash
+sudo pacman -S obsidian
+```
+
+- automatically change input method in vim mode
+download [plugin](https://www.obsidianstats.com/plugins/vim-im-select)
+set `default IM` to `keyboard-us`
+`obtaining command` to `/usr/bin/fcitx5-remote`
+`switching command` to `/usr/bin/fcitx5-remote -s {im}`
 
 ### Snapshot manager
 
