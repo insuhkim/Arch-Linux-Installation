@@ -3,6 +3,16 @@
 
 ---
 
+## Download ISO
+
+Download EndeavourOS ISO from [here](https://endeavouros.com)
+
+Boot usb with [balenaEtcher](https://etcher.balena.io) or [ventoy](https://ventoy.net/en/index.html)
+
+Make sure **SECURE BOOT** is disabled in BIOS
+
+Boot the device with usb plugged in and enter boot menu, select EndeavourOS
+
 ## System Related
 
 ### Update Mirrors & Check Updates
