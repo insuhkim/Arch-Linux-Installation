@@ -447,6 +447,11 @@ chezmoi init git@github.com:$GITHUB_USERNAME/dotfiles.git
 
 [YouTube Guide](https://www.youtube.com/watch?v=nmQn-JRwlo0)
 
+#### laggy on Alt-Tab
+
+goto settings -> window management -> task switcher
+uncheck `show selected window`
+
 #### Klassy
 
 [Github link](https://github.com/paulmcauley/klassy)
