@@ -418,6 +418,15 @@ sudo pacman -S btop dust bat tldr lsd zoxide fastfetch tmux yazi
 - Terminal window managers: `tmux`, `zellij`, or `wezterm`
 - `konsave` - kde configuration saver
 
+#### Looking cool
+
+- pipes.sh
+- cava
+- cmatrix
+- lolcat
+- fortune
+- cowsay
+
 #### fastfetch on StartUp(Konsole)
 
 Add this line to Settings - Profile - Command
