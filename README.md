@@ -30,7 +30,7 @@ yay
 sudo systemctl enable --now bluetooth
 ```
 
-### TLP battery management
+### TLP battery management in Laptops
 
 [TLP Official Installation Guide](https://linrunner.de/tlp/installation/arch.html)
 
@@ -279,6 +279,7 @@ Restart the computer
 
 ### open-webui
 
+[open-webui github page](https://github.com/open-webui/open-webui)
 Install with this command:
 
 ```bash
