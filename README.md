@@ -426,6 +426,7 @@ sudo pacman -S btop dust bat tldr lsd zoxide fastfetch tmux yazi
 - lolcat
 - fortune
 - cowsay
+- cbonsai
 
 #### fastfetch on StartUp(Konsole)
 
