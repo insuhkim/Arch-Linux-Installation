@@ -429,6 +429,10 @@ sudo pacman -S btop dust bat tldr lsd zoxide fastfetch tmux yazi
 - cowsay
 - cbonsai
 
+#### TMUX Configuration
+
+[oh-my-tmux](https://github.com/gpakosz/.tmux?tab=readme-ov-file)
+
 #### fastfetch on StartUp(Konsole)
 
 Add this line to Settings - Profile - Command
