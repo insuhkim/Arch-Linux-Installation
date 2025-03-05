@@ -26,6 +26,8 @@ sudo pacman -S timeshift
 sudo timeshift --create
 ```
 
+Or you installed with DE, you can use GUI application `timeshift-launcher`
+
 ### Enable Bluetooth
 
 ```bash
@@ -185,6 +187,13 @@ udiskctl mount -b /dev/sdXN
 ```
 
 USB drive will be mounted in `/run/media/$USER`
+
+### Bluetooth Connection
+
+You can use `bluetoothctl`, but it's a bit complicated. Use `bluetui` instead.
+You can install `bluetui` with `pacman`
+
+In `bluetui`, `s` is for scan, `p` is for `pair`. Use `tab` to navigate throught menu.
 
 ### Wifi Connection
 
