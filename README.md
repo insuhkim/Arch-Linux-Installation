@@ -163,6 +163,29 @@ Refer to [this guide](https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#KDE_Pla
 If you installed with KDE or other Desktop Environment, you can use GUI.
 This is for people who didn't install DE, or just curious about things.
 
+### Mount USB
+
+We will use `udisks2` to automatically mount USB devices.
+Make sure `udisks2` exists.
+
+- Plug in your USB drive
+- Check the device name of your USB drive by running:
+
+```bash
+lsblk
+```
+
+This will list all block devices. In most case, your USB drive will likely be named something like `/dev/sdb1` or `/dev/sdc1` or `/dev/sda1`,
+the format of `/dev/sdXN`
+
+- To mount a USB device:
+
+```bash
+udiskctl mount -b /dev/sdXN
+```
+
+USB drive will be mounted in `/run/media/$USER`
+
 ### Wifi Connection
 
 #### `iwctl`
