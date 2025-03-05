@@ -3,17 +3,17 @@
 
 ---
 
-## Download ISO
+## Download ISO & Make bootable USB
 
 Download EndeavourOS ISO from [here](https://endeavouros.com)
 
 Boot usb with [balenaEtcher](https://etcher.balena.io) or [ventoy](https://ventoy.net/en/index.html)
 
-Make sure **SECURE BOOT** is disabled in BIOS
+Make sure **SECURE BOOT is disabled** in BIOS
 
 Boot the device with usb plugged in and enter boot menu, select EndeavourOS
 
-Before installing EndeavourOS, it is recommended to update mirrors in `online installation` to get faster speed.
+Before installing EndeavourOS, it is recommended to update mirrors in `online installation` to make installation faster.
 
 ## After installation
 
@@ -100,7 +100,7 @@ Append this line to `/etc/pacman.conf`
 Include = /etc/pacman.d/chaotic-mirrorlist
 ```
 
-### SSH Key Configuration
+### SSH Key
 
 1. Ensure `git` and `openssh` are installed:
 
@@ -155,6 +155,51 @@ XMODIFIERS=@im=fcitx
 ```
 
 Refer to [this guide](https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#KDE_Plasma) for more details.
+
+---
+
+## How to do things in terminal
+
+If you installed with KDE or other Desktop Environment, you can use GUI.
+This is for people who didn't install DE, or just curious about things.
+
+### Wifi Connection
+
+#### `iwctl`
+
+you can configure wifi with `iwctl`, but using `nmtui` in next line is much easier.
+
+- Display your Wifi stations:
+
+```bash
+iwctl station list
+```
+
+mostly, station name is `wlan0`.
+
+- Start looking for networks with a station:
+
+```bash
+iwctl station station_name scan
+```
+
+note that `scan` doesn't give any output
+
+- Display the networks found by a station:
+
+```bash
+iwctl station station_name get-networks
+```
+
+- Connect to a network with a station, if credentials are needed they will be asked:
+
+```bash
+iwctl station station_name connect network_name
+```
+
+#### `nmtui`
+
+`nmtui` stands for Network Manager TUI
 
 ---
 
@@ -300,8 +345,20 @@ sudo pacman -S btop dust bat tldr lsd zoxide fastfetch tmux yazi
 
 #### Dotfiles with [Chezmoi](https://www.chezmoi.io)
 
+Download chezmoi first
+
+```bash
+sudo pacman -S chezmoi
+```
+
 ```bash
 chezmoi init git@github.com:$GITHUB_USERNAME/dotfiles.git
+```
+
+To apply dotfiles interactively, simply run
+
+```bash
+chezmoi -v apply
 ```
 
 ### Internet Browser
