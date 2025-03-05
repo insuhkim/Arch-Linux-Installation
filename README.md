@@ -13,15 +13,17 @@ Make sure **SECURE BOOT** is disabled in BIOS
 
 Boot the device with usb plugged in and enter boot menu, select EndeavourOS
 
-## System Related
+Before installing EndeavourOS, it is recommended to update mirrors in `online installation` to get faster speed.
 
-### Update Mirrors & Check Updates
+## After installation
+
+### Make snapshot
+
+Right after successful installation, make a snapshot just in case.
 
 ```bash
-reflector-simple
-eos-update
-eos-update --aur
-yay
+sudo pacman -S timeshift
+sudo timeshift --create
 ```
 
 ### Enable Bluetooth
@@ -45,37 +47,12 @@ If it conflicts with `power-profiles-daemon`, remove it.
 
 ### Fix Audio Issues
 
+There's speaker issue with lenovo yoga.
 [Audio is too loud when volume is set greater than 0 on Lenovo Yoga](https://github.com/alsa-project/alsa-lib/issues/366)
+To solve this problem, you should follow these steps.
 
-#### Solution 1: Modify `analog-input-aux.conf`
-
-In `/usr/share/alsa-card-profile/mixer/paths/analog-input-aux.conf`,
-Modify these lines:
-
-```diff
-@@ -79,8 +79,6 @@
-override-map.2 = all-left,all-right
-
-[Element Master]
--switch = mute
--volume = merge
-override-map.1 = all
-override-map.2 = all-left,all-right
-
-@@ -243,4 +241,8 @@
-override-map.1 = all-center
-override-map.2 = all-center,lfe
-
-+[Element Master]
-+switch = mute
-+volume = ignore
-+
-.include analog-output.conf.common
-```
-
-#### Solution 2: Modify `analog-input-aux.conf.common`
-
-Add these three lines above the `Element PCM`:
+First, in `/usr/share/alsa-card-profile/mixer/paths/analog-output.conf`,
+add these three lines above the `Element PCM`:
 
 ```diff
 +[Element Master]
@@ -89,15 +66,13 @@ override-map.1 = all
 override-map.2 = all-left,all-right
 ```
 
-#### Solution 3: Modify GRUB
+Add the following parameters to `GRUB_CMDLINE_LINUX_DEFAULT` in `/etc/default/grub`
 
-Add the following parameters to `GRUB_CMDLINE_LINUX_DEFAULT`:
-
-```bash
+```
 snd_hda_intel.dmic_detect=0 snd_hda_intel.model=lenovo
 ```
 
-Update GRUB:
+After that, just update GRUB and reboot:
 
 ```bash
 sudo grub-mkconfig -o /boot/grub/grub.cfg
@@ -106,9 +81,9 @@ reboot
 
 ### Chaotic AUR
 
-NOTE: key can change, please refer to [Chaotic AUR document](https://aur.chaotic.cx/docs)
+NOTE: the key can change, please check [Chaotic AUR document](https://aur.chaotic.cx/docs)
 
-run this command to install Chaotic AUR:
+Run this command to install Chaotic AUR:
 
 ```bash
 sudo pacman-key --recv-key 3056513887B78AEB --keyserver keyserver.ubuntu.com
@@ -118,11 +93,46 @@ sudo pacman -U 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.ta
 sudo pacman -U 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst'
 ```
 
-append this line to `/etc/pacman.conf`
+Append this line to `/etc/pacman.conf`
 
 ```bash
 [chaotic-aur]
 Include = /etc/pacman.d/chaotic-mirrorlist
+```
+
+### SSH Key Configuration
+
+1. Ensure `git` and `openssh` are installed:
+
+```bash
+sudo pacman -S git openssh
+```
+
+2. Create a new SSH key pair:
+
+```bash
+ssh-keygen -t ed25519 -C "insuhkim@naver.com"
+```
+
+3. Add the SSH key to the SSH Agent:
+
+```bash
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_ed25519
+```
+
+4. Add the SSH Key to GitHub:
+   - Copy the public key:
+
+   ```bash
+   cat ~/.ssh/id_ed25519.pub
+   ```
+
+   - Go to [GitHub SSH Key Settings](https://github.com/settings/ssh/new) and paste the key.
+5. Verify SSH Connection (Optional):
+
+```bash
+ssh -T git@github.com
 ```
 
 ### Korean Input Configuration
@@ -146,123 +156,6 @@ XMODIFIERS=@im=fcitx
 
 Refer to [this guide](https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#KDE_Plasma) for more details.
 
-### GRUB Configuration
-
-#### Make `update-grub` command
-
-Create `/usr/sbin/update-grub` with the following content:
-
-```bash
-#!/bin/sh
-set -e
-exec grub-mkconfig -o /boot/grub/grub.cfg "$@"
-```
-
-Give it executable permissions:
-
-```bash
-sudo chown root:root /usr/sbin/update-grub
-sudo chmod 755 /usr/sbin/update-grub
-```
-
-#### Change GRUB Resolution
-
-[Reference](https://askubuntu.com/questions/54067/how-to-safely-change-grub2-screen-resolution)
-
-1. Type `videoinfo` in the GRUB console to check available resolutions.
-2. Open `/etc/default/grub` and modify `GRUB_GFXMODE` with your desired resolution.
-3. run this command to set the resolution:
-
-```bash
-sudo update-grub
-```
-
-#### Change GRUB Background
-
-1. open `/etc/default/grub` and modify `GRUB_BACKGROUND` with your desired image path.
-2. then run this command to set the background:
-
-```bash
-sudo update-grub
-```
-
-Make sure the output of this command contains `Found background : /path/to/image.png`
-
-#### Advanced GRUB theme configuration
-
-install `grub-customizer`
-
-### Change Login Screen Resolution(SDDM)
-
-Run `xrandr` in your user session to find your display output name (e.g., HDMI-1) and supported resolutions.
-
-Edit `/usr/share/sddm/scripts/Xsetup`
-
-```bash
-#!/bin/sh
-xrandr --output eDP-1 --mode 1920x1200
-```
-
-Make sure that the script is executable
-
-```bash
-sudo chmod +x /usr/share/sddm/scripts/Xsetup
-```
-
-```bash
-sudo systemctl restart sddm
-```
-
-### WebCam Setting
-
-Check Hardware Detection
-
-```bash
-lsusb
-```
-
-Most WebCams use the `uvcvideo` driver. Ensure it's loaded:
-
-```bash
-lsmod | grep uvcvideo
-```
-
-If not, load it:
-
-```bash
-sudo modprobe uvcvideo
-```
-
-Check kernel messages for errors:
-
-```bash
-dmesg | tail
-```
-
-```bash
-
-Install Necessary Tools
-
-```bash
-sudo pacman -S v4l-utils cheese mpv
-```
-
-Permission
-
-```bash
-sudo usermod -aG video $USER
-```
-
-Test the webcam
-
-```bash
-mpv av://v4l2:/dev/video0
-```
-
-```bash
-cheese
-```
-
 ---
 
 ## Personal Programs
@@ -275,7 +168,7 @@ sudo systemctl enable --now docker.service
 sudo usermod -aG docker $USER
 ```
 
-Restart the computer
+After installing docker, restart is recommended.
 
 ### open-webui
 
@@ -288,7 +181,7 @@ docker run -d -p 3000:8080 --add-host=host.docker.internal:host-gateway -v open-
 
 After installation, you can access Open WebUI at <http://localhost:3000>.
 
-If you don't want running on startup, you can type
+If you don't want `open-webui` run on startup, you can type
 
 ```bash
 docker update --restart=no open-webui
@@ -339,45 +232,18 @@ bash <(curl https://raw.githubusercontent.com/winapps-org/winapps/main/setup.sh)
 
 ### Terminal Setup
 
+#### Font
+
+Install Nerd Font:
+
+```bash
+sudo pacman -S ttf-jetbrains-mono-nerd
+```
+
 #### Kitty
 
 ```bash
 sudo pacman -S kitty
-```
-
-#### SSH Key Configuration
-
-1. Ensure `git` and `openssh` are installed:
-
-```bash
-sudo pacman -S git openssh
-```
-
-2. Create a new SSH key pair:
-
-```bash
-ssh-keygen -t ed25519 -C "insuhkim@naver.com"
-```
-
-3. Add the SSH key to the SSH Agent:
-
-```bash
-eval "$(ssh-agent -s)"
-ssh-add ~/.ssh/id_ed25519
-```
-
-4. Add the SSH Key to GitHub:
-   - Copy the public key:
-
-   ```bash
-   cat ~/.ssh/id_ed25519.pub
-   ```
-
-   - Go to [GitHub SSH Key Settings](https://github.com/settings/ssh/new) and paste the key.
-5. Verify SSH Connection (Optional):
-
-```bash
-ssh -T git@github.com
 ```
 
 #### Neovim
@@ -413,11 +279,9 @@ sudo pacman -S btop dust bat tldr lsd zoxide fastfetch tmux yazi
 
 #### Other Tools
 
-- `bottom` - Also resource monitor
+- `bottom` - Also a resource monitor
 - `eza` - Also better `ls`
 - `atuin` - Command history manager
-- Terminal window managers: `tmux`, `zellij`, or `wezterm`
-- `konsave` - kde configuration saver
 
 #### Looking cool
 
@@ -428,18 +292,11 @@ sudo pacman -S btop dust bat tldr lsd zoxide fastfetch tmux yazi
 - fortune
 - cowsay
 - cbonsai
+- onefetch
 
 #### TMUX Configuration
 
 [oh-my-tmux](https://github.com/gpakosz/.tmux?tab=readme-ov-file)
-
-#### fastfetch on StartUp(Konsole)
-
-Add this line to Settings - Profile - Command
-
-```bash
-/bin/zsh -c "fastfetch; zsh"
-```
 
 #### Dotfiles with [Chezmoi](https://www.chezmoi.io)
 
@@ -447,7 +304,171 @@ Add this line to Settings - Profile - Command
 chezmoi init git@github.com:$GITHUB_USERNAME/dotfiles.git
 ```
 
-### KDE Configuration
+### Internet Browser
+
+```bash
+sudo pacman -S vivaldi
+```
+
+### Disk Usage analyzer
+
+```bash
+sudo pacman -S filelight
+```
+
+### Obsidian
+
+```bash
+sudo pacman -S obsidian
+```
+
+- automatically change input method in vim mode
+download [plugin](https://www.obsidianstats.com/plugins/vim-im-select)
+set `default IM` to `keyboard-us`
+`obtaining command` to `/usr/bin/fcitx5-remote`
+`switching command` to `/usr/bin/fcitx5-remote -s {im}`
+
+### LibreOffice
+
+```bash
+sudo pacman -S libreoffice-still
+```
+
+Goto View -> User interface and Select `Tabbed`, apply all.
+Goto Settings -> Load/Save -> General and change default file format to xlsx/pptx/docx.
+
+### Bottles (For Running Windows Apps)
+
+```bash
+sudo pacman -Syu
+sudo pacman -S flatpak
+flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+flatpak install flathub com.usebottles.bottles
+flatpak override com.usebottles.bottles --user --filesystem=xdg-data/applications
+```
+
+For file access permissions, install Flatseal:
+
+```bash
+flatpak install flathub com.github.tchx84.Flatseal
+```
+
+Enable "All User Files" in Flatseal for Bottles.
+
+#### Kakaotalk
+
+Download cjk fonts in Bottles -> dependencies.
+Download the latest version from [KakaoTalk](https://www.kakaocorp.com/page/service/service/KakaoTalk) and install it using Bottles.
+`Cafe` runner is better than `Soda` runner for KakaoTalk.
+
+### Zapret (DPI Circumvention)
+
+#### Download from AUR(recommended)
+
+```bash
+yay -S zapret
+```
+
+#### Download Manually
+
+1. Download the latest release from [Zapret](https://github.com/bol-van/zapret/releases)
+2. Unzip and move it to `/opt/zapret`
+3. Run:
+
+```bash
+./blockcheck.sh
+./install_easy.sh
+```
+
+4. Enable Zapret:
+
+```bash
+sudo systemctl enable zapret
+sudo systemctl start zapret
+```
+
+## Theme & Appearance
+
+### GRUB Configuration
+
+#### Make `update-grub` command
+
+Create `/usr/sbin/update-grub` with the following content:
+
+```bash
+#!/bin/sh
+set -e
+exec grub-mkconfig -o /boot/grub/grub.cfg "$@"
+```
+
+Give it executable permissions:
+
+```bash
+sudo chown root:root /usr/sbin/update-grub
+sudo chmod 755 /usr/sbin/update-grub
+```
+
+#### Change GRUB Resolution
+
+[Reference](https://askubuntu.com/questions/54067/how-to-safely-change-grub2-screen-resolution)
+
+1. Type `videoinfo` in the GRUB console to check available resolutions.
+2. Open `/etc/default/grub` and modify `GRUB_GFXMODE` with your desired resolution.
+3. run this command to set the resolution:
+
+```bash
+sudo update-grub
+```
+
+#### Change GRUB Background
+
+1. open `/etc/default/grub` and modify `GRUB_BACKGROUND` with your desired image path.
+2. then run this command to set the background:
+
+```bash
+sudo update-grub
+```
+
+Make sure the output of this command contains `Found background: /path/to/image.png`
+
+#### Advanced GRUB theme configuration
+
+install `grub-customizer`
+
+### SDDM(login screen)
+
+#### Change Resolution
+
+Run `xrandr` in your user session to find your display output name (e.g., HDMI-1, eDP-1) and supported resolutions.
+
+Edit `/usr/share/sddm/scripts/Xsetup`
+
+```bash
+#!/bin/sh
+xrandr --output eDP-1 --mode 1920x1200
+```
+
+Make sure that the script is executable
+
+```bash
+sudo chmod +x /usr/share/sddm/scripts/Xsetup
+```
+
+simply restart sddm
+
+```bash
+sudo systemctl restart sddm
+```
+
+#### [Astronut theme](https://github.com/Keyitdev/sddm-astronaut-theme/tree/master?tab=readme-ov-file)
+
+Run automatic installation script
+
+```bash
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/keyitdev/sddm-astronaut-theme/master/setup.sh)"
+```
+
+### KDE
 
 #### KDE Sweet Theme
 
@@ -500,102 +521,14 @@ cmake --build build --target install_pkg
 Goto Settings -> Wallpaper and Select Wallpaper Engine for `wallpaper type`.
 Select Steamlibrary which is `~/.local/share/Steam` by default.
 
-### Internet Browser
-
-```bash
-sudo pacman -S vivaldi
-```
-
-### Disk Usage analyzer
-
-```bash
-sudo pacman -S filelight
-```
-
-### Obsidian
-
-```bash
-sudo pacman -S obsidian
-```
-
-- automatically change input method in vim mode
-download [plugin](https://www.obsidianstats.com/plugins/vim-im-select)
-set `default IM` to `keyboard-us`
-`obtaining command` to `/usr/bin/fcitx5-remote`
-`switching command` to `/usr/bin/fcitx5-remote -s {im}`
-
-### Snapshot manager
-
-```bash
-sudo pacman -S timeshift
-```
-
-### LibreOffice
-
-```bash
-sudo pacman -S libreoffice-still
-```
-
-Goto View -> User interface and Select `Tabbed`, apply all.
-Goto Settings -> Load/Save -> General and change default file format to xlsx/pptx/docx.
-
-### Bottles (For Running Windows Apps)
-
-```bash
-sudo pacman -Syu
-sudo pacman -S flatpak
-flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-flatpak install flathub com.usebottles.bottles
-flatpak override com.usebottles.bottles --user --filesystem=xdg-data/applications
-```
-
-For file access permissions, install Flatseal:
-
-```bash
-flatpak install flathub com.github.tchx84.Flatseal
-```
-
-Enable "All User Files" in Flatseal for Bottles.
-
-#### Kakaotalk
-
-Download cjk fonts in Bottles -> dependencies.
-Download the latest version from [KakaoTalk](https://www.kakaocorp.com/page/service/service/KakaoTalk) and install it using Bottles.
-`Cafe` runner is better than `Soda`runner for KakaoTalk.
-
-### Zapret (DPI Circumvention)
-
-#### Download from AUR(recommended)
-
-```bash
-yay -S zapret
-```
-
-#### Download Manually
-
-1. Download the latest release from [Zapret](https://github.com/bol-van/zapret/releases)
-2. Unzip and move it to `/opt/zapret`
-3. Run:
-
-```bash
-./blockcheck.sh
-./install_easy.sh
-```
-
-4. Enable Zapret:
-
-```bash
-sudo systemctl enable zapret
-sudo systemctl start zapret
-```
-
 ---
 
 ## TODO
 
 - pinch to zoom
 - Hybrid GPU (NVIDIA Prime or Optimus)
-
+- hyprland
+  
 ---
 
 ## Deprecated
@@ -623,15 +556,59 @@ Modify `~/.zshrc`:
 ZSH_THEME="powerlevel10k/powerlevel10k"
 ```
 
-Install Nerd Font:
-
-```bash
-sudo pacman -S ttf-jetbrains-mono-nerd
-```
-
 ### Hancom Office
 
 ```bash
 yay -S hoffice
 sudo mv /opt/hnc/hoffice11/Bin/qt{,.bak}
+```
+
+### WebCam Setting
+
+Check Hardware Detection
+
+```bash
+lsusb
+```
+
+Most WebCams use the `uvcvideo` driver. Ensure it's loaded:
+
+```bash
+lsmod | grep uvcvideo
+```
+
+If not, load it:
+
+```bash
+sudo modprobe uvcvideo
+```
+
+Check kernel messages for errors:
+
+```bash
+dmesg | tail
+```
+
+```bash
+
+Install Necessary Tools
+
+```bash
+sudo pacman -S v4l-utils cheese mpv
+```
+
+Permission
+
+```bash
+sudo usermod -aG video $USER
+```
+
+Test the webcam
+
+```bash
+mpv av://v4l2:/dev/video0
+```
+
+```bash
+cheese
 ```
