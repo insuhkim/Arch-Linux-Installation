@@ -53,7 +53,7 @@ There's speaker issue with lenovo yoga.
 [Audio is too loud when volume is set greater than 0 on Lenovo Yoga](https://github.com/alsa-project/alsa-lib/issues/366)
 To solve this problem, you should follow these steps.
 
-First, in `/usr/share/alsa-card-profile/mixer/paths/analog-output.conf`,
+First, in `/usr/share/alsa-card-profile/mixer/paths/analog-output.conf.common`,
 add these three lines above the `Element PCM`:
 
 ```diff
@@ -158,6 +158,22 @@ XMODIFIERS=@im=fcitx
 
 Refer to [this guide](https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#KDE_Plasma) for more details.
 
+### Make `update-grub` command
+
+Create `/usr/sbin/update-grub` with the following content:
+
+```bash
+#!/bin/sh
+set -e
+exec grub-mkconfig -o /boot/grub/grub.cfg "$@"
+```
+
+Give it executable permissions:
+
+```bash
+sudo chown root:root /usr/sbin/update-grub
+sudo chmod 755 /usr/sbin/update-grub
+```
 ---
 
 ## How to do things in terminal
@@ -480,22 +496,6 @@ sudo systemctl start zapret
 
 ### GRUB Configuration
 
-#### Make `update-grub` command
-
-Create `/usr/sbin/update-grub` with the following content:
-
-```bash
-#!/bin/sh
-set -e
-exec grub-mkconfig -o /boot/grub/grub.cfg "$@"
-```
-
-Give it executable permissions:
-
-```bash
-sudo chown root:root /usr/sbin/update-grub
-sudo chmod 755 /usr/sbin/update-grub
-```
 
 #### Change GRUB Resolution
 
@@ -522,7 +522,7 @@ Make sure the output of this command contains `Found background: /path/to/image.
 
 #### Advanced GRUB theme configuration
 
-install `grub-customizer`
+Install `grub-customizer`
 
 ### SDDM(login screen)
 
@@ -537,13 +537,7 @@ Edit `/usr/share/sddm/scripts/Xsetup`
 xrandr --output eDP-1 --mode 1920x1200
 ```
 
-Make sure that the script is executable
-
-```bash
-sudo chmod +x /usr/share/sddm/scripts/Xsetup
-```
-
-simply restart sddm
+Simply restart sddm
 
 ```bash
 sudo systemctl restart sddm
