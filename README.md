@@ -579,6 +579,10 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/keyitdev/sddm-astronaut-th
 
 [YouTube Guide](https://www.youtube.com/watch?v=nmQn-JRwlo0)
 
+#### panel colorizer
+
+[ https://store.kde.org/p/2130967 ]
+
 #### laggy on Alt-Tab
 
 goto settings -> window management -> task switcher
