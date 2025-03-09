@@ -1,4 +1,3 @@
-
 # EndeavourOS System Configuration Guide
 
 ---
@@ -124,6 +123,7 @@ ssh-add ~/.ssh/id_ed25519
 ```
 
 4. Add the SSH Key to GitHub:
+
    - Copy the public key:
 
    ```bash
@@ -131,6 +131,7 @@ ssh-add ~/.ssh/id_ed25519
    ```
 
    - Go to [GitHub SSH Key Settings](https://github.com/settings/ssh/new) and paste the key.
+
 5. Verify SSH Connection (Optional):
 
 ```bash
@@ -174,6 +175,7 @@ Give it executable permissions:
 sudo chown root:root /usr/sbin/update-grub
 sudo chmod 755 /usr/sbin/update-grub
 ```
+
 ---
 
 ## How to do things in terminal
@@ -301,7 +303,7 @@ sudo usermod -aG docker $USER
 ```
 
 2. Install Windows
-Follow this [guide](https://github.com/winapps-org/winapps/blob/main/docs/docker.md#installing-windows)
+   Follow this [guide](https://github.com/winapps-org/winapps/blob/main/docs/docker.md#installing-windows)
 
 3. Install Dependencies
 
@@ -428,10 +430,10 @@ sudo pacman -S obsidian
 ```
 
 - automatically change input method in vim mode
-download [plugin](https://www.obsidianstats.com/plugins/vim-im-select)
-set `default IM` to `keyboard-us`
-`obtaining command` to `/usr/bin/fcitx5-remote`
-`switching command` to `/usr/bin/fcitx5-remote -s {im}`
+  download [plugin](https://www.obsidianstats.com/plugins/vim-im-select)
+  set `default IM` to `keyboard-us`
+  `obtaining command` to `/usr/bin/fcitx5-remote`
+  `switching command` to `/usr/bin/fcitx5-remote -s {im}`
 
 ### LibreOffice
 
@@ -496,7 +498,6 @@ sudo systemctl start zapret
 
 ### GRUB Configuration
 
-
 #### Change GRUB Resolution
 
 [Reference](https://askubuntu.com/questions/54067/how-to-safely-change-grub2-screen-resolution)
@@ -511,8 +512,21 @@ sudo update-grub
 
 #### Change GRUB Background
 
-1. open `/etc/default/grub` and modify `GRUB_BACKGROUND` with your desired image path.
-2. then run this command to set the background:
+- prepare an image that you want to set as a background.
+
+- run this command to convert the image to the correct format:
+
+```bash
+sudo magick /path/to/image.png -resize 1920x1080 -depth 24 /boot/grub/background.png
+```
+
+- open `/etc/default/grub` and modify `GRUB_BACKGROUND`
+
+```config
+GRUB_BACKGROUND="/boot/grub/background.png"
+```
+
+- then simply run this command to update grub:
 
 ```bash
 sudo update-grub
@@ -537,7 +551,7 @@ Edit `/usr/share/sddm/scripts/Xsetup`
 xrandr --output eDP-1 --mode 1920x1200
 ```
 
-Simply restart sddm
+Simply restart SDDM
 
 ```bash
 sudo systemctl restart sddm
@@ -611,7 +625,7 @@ Select Steamlibrary which is `~/.local/share/Steam` by default.
 - pinch to zoom
 - Hybrid GPU (NVIDIA Prime or Optimus)
 - hyprland
-  
+
 ---
 
 ## Deprecated
@@ -672,13 +686,13 @@ Check kernel messages for errors:
 dmesg | tail
 ```
 
-```bash
+````bash
 
 Install Necessary Tools
 
 ```bash
 sudo pacman -S v4l-utils cheese mpv
-```
+````
 
 Permission
 
