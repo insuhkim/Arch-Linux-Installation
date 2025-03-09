@@ -468,6 +468,8 @@ Download cjk fonts in Bottles -> dependencies.
 Download the latest version from [KakaoTalk](https://www.kakaocorp.com/page/service/service/KakaoTalk) and install it using Bottles.
 `Cafe` runner is better than `Soda` runner for KakaoTalk.
 
+After installation, set kakaotalk font to korean font in settings.
+
 ### Zapret (DPI Circumvention)
 
 #### Download from AUR(recommended)
