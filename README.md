@@ -451,7 +451,6 @@ sudo pacman -Syu
 sudo pacman -S flatpak
 flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 flatpak install flathub com.usebottles.bottles
-flatpak override com.usebottles.bottles --user --filesystem=xdg-data/applications
 ```
 
 For file access permissions, install Flatseal:
@@ -461,6 +460,13 @@ flatpak install flathub com.github.tchx84.Flatseal
 ```
 
 Enable "All User Files" in Flatseal for Bottles.
+Also add this path to add desktop entry for Bottles:
+
+```bash
+flatpak override com.usebottles.bottles --user --filesystem=xdg-data/applications
+flatpak override com.usebottles.bottles --user --filesystem=~/.local/share/applications
+mkdir -p ~/.local/share/applications
+```
 
 #### Kakaotalk
 
