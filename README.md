@@ -6,11 +6,11 @@
 
 Download EndeavourOS ISO from [here](https://endeavouros.com)
 
-Boot usb with [balenaEtcher](https://etcher.balena.io) or [ventoy](https://ventoy.net/en/index.html)
+Boot USB with [balenaEtcher](https://etcher.balena.io) or [ventoy](https://ventoy.net/en/index.html)
 
 Make sure **SECURE BOOT is disabled** in BIOS
 
-Boot the device with usb plugged in and enter boot menu, select EndeavourOS
+Boot the device with USB plugged in and enter boot menu, select EndeavourOS
 
 Before installing EndeavourOS, it is recommended to update mirrors in `online installation` to make installation faster.
 
@@ -178,81 +178,6 @@ sudo chmod 755 /usr/sbin/update-grub
 
 ---
 
-## How to do things in terminal
-
-If you installed with KDE or other Desktop Environment, you can use GUI.
-This is for people who didn't install DE, or just curious about things.
-
-### Mount USB
-
-We will use `udisks2` to automatically mount USB devices.
-Make sure `udisks2` exists.
-
-- Plug in your USB drive
-- Check the device name of your USB drive by running:
-
-```bash
-lsblk
-```
-
-This will list all block devices. In most case, your USB drive will likely be named something like `/dev/sdb1` or `/dev/sdc1` or `/dev/sda1`,
-the format of `/dev/sdXN`
-
-- To mount a USB device:
-
-```bash
-udiskctl mount -b /dev/sdXN
-```
-
-USB drive will be mounted in `/run/media/$USER`
-
-### Bluetooth Connection
-
-You can use `bluetoothctl`, but it's a bit complicated. Use `bluetui` instead.
-You can install `bluetui` with `pacman`
-
-In `bluetui`, `s` is for scan, `p` is for `pair`. Use `tab` to navigate throught menu.
-
-### Wifi Connection
-
-#### `iwctl`
-
-you can configure wifi with `iwctl`, but using `nmtui` in next line is much easier.
-
-- Display your Wifi stations:
-
-```bash
-iwctl station list
-```
-
-mostly, station name is `wlan0`.
-
-- Start looking for networks with a station:
-
-```bash
-iwctl station station_name scan
-```
-
-note that `scan` doesn't give any output
-
-- Display the networks found by a station:
-
-```bash
-iwctl station station_name get-networks
-```
-
-- Connect to a network with a station, if credentials are needed they will be asked:
-
-```bash
-iwctl station station_name connect network_name
-```
-
-#### `nmtui`
-
-`nmtui` stands for Network Manager TUI
-
----
-
 ## Personal Programs
 
 ### Docker
@@ -414,8 +339,10 @@ chezmoi -v apply
 ### Internet Browser
 
 ```bash
-sudo pacman -S vivaldi
+sudo pacman -S zen-browser
 ```
+
+[nebular theme](https://github.com/JustAdumbPrsn/Nebula-A-Minimal-Theme-for-Zen-Browser?tab=readme-ov-file)
 
 ### Disk Usage analyzer
 
@@ -579,9 +506,11 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/keyitdev/sddm-astronaut-th
 
 [YouTube Guide](https://www.youtube.com/watch?v=nmQn-JRwlo0)
 
-#### panel colorizer
+#### Widgets
 
-[ https://store.kde.org/p/2130967 ]
+[apdatifier](https://github.com/exequtic/apdatifier)
+
+[panel colorizer](https://store.kde.org/p/2130967)
 
 #### laggy on Alt-Tab
 
@@ -721,3 +650,78 @@ mpv av://v4l2:/dev/video0
 ```bash
 cheese
 ```
+
+---
+
+## How to do things in terminal
+
+If you installed with KDE or other Desktop Environment, you can use GUI.
+This is for people who didn't install DE, or just curious about things.
+
+### Mount USB
+
+We will use `udisks2` to automatically mount USB devices.
+Make sure `udisks2` exists.
+
+- Plug in your USB drive
+- Check the device name of your USB drive by running:
+
+```bash
+lsblk
+```
+
+This will list all block devices. In most case, your USB drive will likely be named something like `/dev/sdb1` or `/dev/sdc1` or `/dev/sda1`,
+the format of `/dev/sdXN`
+
+- To mount a USB device:
+
+```bash
+udiskctl mount -b /dev/sdXN
+```
+
+USB drive will be mounted in `/run/media/$USER`
+
+### Bluetooth Connection
+
+You can use `bluetoothctl`, but it's a bit complicated. Use `bluetui` instead.
+You can install `bluetui` with `pacman`
+
+In `bluetui`, `s` is for scan, `p` is for `pair`. Use `tab` to navigate throught menu.
+
+### Wifi Connection
+
+#### `iwctl`
+
+you can configure wifi with `iwctl`, but using `nmtui` in next line is much easier.
+
+- Display your Wifi stations:
+
+```bash
+iwctl station list
+```
+
+mostly, station name is `wlan0`.
+
+- Start looking for networks with a station:
+
+```bash
+iwctl station station_name scan
+```
+
+note that `scan` doesn't give any output
+
+- Display the networks found by a station:
+
+```bash
+iwctl station station_name get-networks
+```
+
+- Connect to a network with a station, if credentials are needed they will be asked:
+
+```bash
+iwctl station station_name connect network_name
+```
+
+#### `nmtui`
+
+`nmtui` stands for Network Manager TUI
