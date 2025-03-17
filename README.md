@@ -342,7 +342,14 @@ chezmoi -v apply
 sudo pacman -S zen-browser
 ```
 
-[nebular theme](https://github.com/JustAdumbPrsn/Nebula-A-Minimal-Theme-for-Zen-Browser?tab=readme-ov-file)
+- install [Nebular theme](https://github.com/JustAdumbPrsn/Nebula-A-Minimal-Theme-for-Zen-Browser?tab=readme-ov-file)
+- install [ KDE force blur ](https://github.com/taj-ny/kwin-effects-forceblur)
+
+```bash
+yay -S kwin-effects-forceblur
+```
+
+- install [Transparent-zen](https://github.com/frostybiscuit/transparent-zen?tab=readme-ov-file) [here](https://addons.mozilla.org/en-US/firefox/addon/transparent-zen/)
 
 ### Disk Usage analyzer
 
