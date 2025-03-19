@@ -318,6 +318,13 @@ sudo pacman -S btop dust bat tldr lsd zoxide fastfetch tmux yazi
 
 [oh-my-tmux](https://github.com/gpakosz/.tmux?tab=readme-ov-file)
 
+```bash
+cd
+git clone --single-branch https://github.com/gpakosz/.tmux.git
+ln -s -f .tmux/.tmux.conf
+cp .tmux/.tmux.conf.local .
+```
+
 #### Dotfiles with [Chezmoi](https://www.chezmoi.io)
 
 Download chezmoi first
