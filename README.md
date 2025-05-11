@@ -2,6 +2,10 @@
 
 ---
 
+This guide provides step-by-step instructions for installing and configuring Arch Linux using EndeavourOS, KDE, and Wayland. It includes post-installation tasks, advanced configurations, and personal program setups.
+
+---
+
 ## Download ISO & Make Bootable USB
 
 1. Download EndeavourOS ISO from [here](https://endeavouros.com).
@@ -281,6 +285,15 @@ bash <(curl https://raw.githubusercontent.com/winapps-org/winapps/main/setup.sh)
 
 ### Terminal Setup
 
+#### ZSH
+
+```bash
+sudo pacman -S zsh
+chsh -s /bin/zsh
+# Log out and log back in for the changes to take effect
+echo $SHELL # It should output /bin/zsh
+```
+
 #### Font
 
 Install Nerd Font:
@@ -317,10 +330,6 @@ EDITOR=nvim
 
 Install useful terminal programs:
 
-```bash
-sudo pacman -S btop dust bat tldr lsd zoxide fastfetch tmux yazi
-```
-
 - `btop` - Resource monitor
 - `dust` - Disk usage analyzer
 - `bat` - Enhanced `cat`
@@ -338,7 +347,7 @@ sudo pacman -S btop dust bat tldr lsd zoxide fastfetch tmux yazi
 - `eza` - Also better `ls`
 - `atuin` - Command history manager
 
-#### Looking Cool
+#### Silly Programs
 
 - pipes.sh
 - cava
@@ -641,9 +650,7 @@ Select Steam library, which is `~/.local/share/Steam` by default.
 
 ## TODO
 
-- Pinch to zoom
 - Hybrid GPU (NVIDIA Prime or Optimus)
-- Hyprland
 
 ---
 
