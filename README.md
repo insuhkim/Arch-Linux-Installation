@@ -1,41 +1,52 @@
-# EndeavourOS System Configuration Guide
+# Arch Linux Installation & Configuration Guide
 
 ---
 
-## Download ISO & Make bootable USB
+## Download ISO & Make Bootable USB
 
-Download EndeavourOS ISO from [here](https://endeavouros.com)
+1. Download EndeavourOS ISO from [here](https://endeavouros.com).
+2. Create a bootable USB using:
 
-Boot USB with [balenaEtcher](https://etcher.balena.io) or [ventoy](https://ventoy.net/en/index.html)
+   - [balenaEtcher](https://etcher.balena.io)
+   - [Ventoy](https://ventoy.net/en/index.html)
 
-Make sure **SECURE BOOT is disabled** in BIOS
+3. Ensure **SECURE BOOT is disabled** in BIOS.
+4. Boot the device with the USB plugged in, enter the boot menu, and select EndeavourOS.
 
-Boot the device with USB plugged in and enter boot menu, select EndeavourOS
+> **Tip:** Before installing EndeavourOS, update mirrors in the `online installation` option to speed up the installation process.
 
-Before installing EndeavourOS, it is recommended to update mirrors in `online installation` to make installation faster.
+---
 
-## After installation
+## After Installation
 
-### Make snapshot
+### Create a Snapshot
 
-Right after successful installation, make a snapshot just in case.
+Right after a successful installation, create a snapshot as a backup:
 
 ```bash
 sudo pacman -S timeshift
 sudo timeshift --create
 ```
 
-Or you installed with DE, you can use GUI application `timeshift-launcher`
+If you installed a Desktop Environment (DE), you can use the GUI application `timeshift-launcher`.
+
+---
 
 ### Enable Bluetooth
+
+Enable and start the Bluetooth service:
 
 ```bash
 sudo systemctl enable --now bluetooth
 ```
 
-### TLP battery management in Laptops
+---
 
-[TLP Official Installation Guide](https://linrunner.de/tlp/installation/arch.html)
+### TLP Battery Management for Laptops
+
+Follow the [TLP Official Installation Guide](https://linrunner.de/tlp/installation/arch.html).
+
+Install TLP and enable the required services:
 
 ```bash
 sudo pacman -S tlp tlp-rdw
@@ -44,16 +55,17 @@ sudo systemctl enable NetworkManager-dispatcher.service
 sudo systemctl mask systemd-rfkill.service systemd-rfkill.socket
 ```
 
-If it conflicts with `power-profiles-daemon`, remove it.
+> **Note:** If TLP conflicts with `power-profiles-daemon`, remove the latter.
+
+---
 
 ### Fix Audio Issues
 
-There's speaker issue with lenovo yoga.
+There's a speaker issue with Lenovo Yoga.
 [Audio is too loud when volume is set greater than 0 on Lenovo Yoga](https://github.com/alsa-project/alsa-lib/issues/366)
-To solve this problem, you should follow these steps.
+To solve this problem, follow these steps:
 
-First, in `/usr/share/alsa-card-profile/mixer/paths/analog-output.conf.common`,
-add these three lines above the `Element PCM`:
+1. In `/usr/share/alsa-card-profile/mixer/paths/analog-output.conf.common`, add these three lines above the `Element PCM`:
 
 ```diff
 +[Element Master]
@@ -67,24 +79,26 @@ override-map.1 = all
 override-map.2 = all-left,all-right
 ```
 
-Add the following parameters to `GRUB_CMDLINE_LINUX_DEFAULT` in `/etc/default/grub`
+2. Add the following parameters to `GRUB_CMDLINE_LINUX_DEFAULT` in `/etc/default/grub`:
 
-```
+```bash
 snd_hda_intel.dmic_detect=0 snd_hda_intel.model=lenovo
 ```
 
-After that, just update GRUB and reboot:
+3. Update GRUB and reboot:
 
 ```bash
 sudo grub-mkconfig -o /boot/grub/grub.cfg
 reboot
 ```
 
+---
+
 ### Chaotic AUR
 
-NOTE: the key can change, please check [Chaotic AUR document](https://aur.chaotic.cx/docs)
+> **Note:** The key can change, please check the [Chaotic AUR documentation](https://aur.chaotic.cx/docs).
 
-Run this command to install Chaotic AUR:
+Run these commands to install Chaotic AUR:
 
 ```bash
 sudo pacman-key --recv-key 3056513887B78AEB --keyserver keyserver.ubuntu.com
@@ -94,12 +108,14 @@ sudo pacman -U 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.ta
 sudo pacman -U 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst'
 ```
 
-Append this line to `/etc/pacman.conf`
+Append this line to `/etc/pacman.conf`:
 
 ```bash
 [chaotic-aur]
 Include = /etc/pacman.d/chaotic-mirrorlist
 ```
+
+---
 
 ### SSH Key
 
@@ -138,6 +154,8 @@ ssh-add ~/.ssh/id_ed25519
 ssh -T git@github.com
 ```
 
+---
+
 ### Korean Input Configuration
 
 - Install `fcitx5` for Hangul support:
@@ -147,9 +165,9 @@ sudo pacman -S fcitx5-im fcitx5-hangul
 fcitx5-configtool
 ```
 
-- Inside config tool, add "hangul" input method.
+- Inside the config tool, add the "hangul" input method.
 - (Optional) Change `Ctrl+Space` to `Shift+Space` in global options.
-- Set input method to `fcitx5` in system settings.
+- Set the input method to `fcitx5` in system settings.
 - (Optional) In keyboard settings, map `Right Alt` to Hangul and `Right Ctrl` to Hanja.
 - Add the following line to `/etc/environment`:
 
@@ -159,7 +177,9 @@ XMODIFIERS=@im=fcitx
 
 Refer to [this guide](https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#KDE_Plasma) for more details.
 
-### Make `update-grub` command
+---
+
+### Make `update-grub` Command
 
 Create `/usr/sbin/update-grub` with the following content:
 
@@ -182,17 +202,22 @@ sudo chmod 755 /usr/sbin/update-grub
 
 ### Docker
 
+Install Docker and enable the service:
+
 ```bash
 sudo pacman -S docker
 sudo systemctl enable --now docker.service
 sudo usermod -aG docker $USER
 ```
 
-After installing docker, restart is recommended.
+After installing Docker, a restart is recommended.
+
+---
 
 ### open-webui
 
-[open-webui github page](https://github.com/open-webui/open-webui)
+[open-webui GitHub page](https://github.com/open-webui/open-webui)
+
 Install with this command:
 
 ```bash
@@ -201,18 +226,20 @@ docker run -d -p 3000:8080 --add-host=host.docker.internal:host-gateway -v open-
 
 After installation, you can access Open WebUI at <http://localhost:3000>.
 
-If you don't want `open-webui` run on startup, you can type
+If you don't want `open-webui` to run on startup, you can type:
 
 ```bash
 docker update --restart=no open-webui
 ```
+
+---
 
 ### WinApps
 
 Clone the project and follow the [installation steps](https://github.com/winapps-org/winapps?tab=readme-ov-file#installation).
 The descriptions below are only a rough guide.
 
-1. Install Docker Engine
+1. Install Docker Engine and Docker Compose:
 
 ```bash
 # Install Docker and docker-compose
@@ -228,27 +255,29 @@ sudo usermod -aG docker $USER
 ```
 
 2. Install Windows
-   Follow this [guide](https://github.com/winapps-org/winapps/blob/main/docs/docker.md#installing-windows)
+   Follow this [guide](https://github.com/winapps-org/winapps/blob/main/docs/docker.md#installing-windows).
 
-3. Install Dependencies
+3. Install Dependencies:
 
 ```bash
 sudo pacman -Syu --needed -y curl dialog freerdp git iproute2 libnotify gnu-netcat
 ```
 
-4. Create A WinApps Configuration File at `~/.config/winapps/winapps.conf`
+4. Create a WinApps Configuration File at `~/.config/winapps/winapps.conf`.
 
-5. Test FreeRDP
+5. Test FreeRDP:
 
 ```bash
 xfreerdp3 /u:"MyWindowsUser" /p:"MyWindowsPassword" /v:192.168.122.2 /cert:tofu
 ```
 
-6. Run FreeRDP
+6. Run FreeRDP:
 
 ```bash
 bash <(curl https://raw.githubusercontent.com/winapps-org/winapps/main/setup.sh)
 ```
+
+---
 
 ### Terminal Setup
 
@@ -262,11 +291,15 @@ sudo pacman -S ttf-jetbrains-mono-nerd
 
 #### Kitty
 
+Install Kitty terminal emulator:
+
 ```bash
 sudo pacman -S kitty
 ```
 
 #### Neovim
+
+Install Neovim and clipboard support:
 
 ```bash
 sudo pacman -S neovim wl-clipboard
@@ -274,13 +307,15 @@ sudo pacman -S neovim wl-clipboard
 
 [How to enable clipboard support](https://askubuntu.com/questions/1486871/how-can-i-copy-and-paste-outside-of-neovim)
 
-in `/etc/environment`, change `EDITOR` to `nvim`
+In `/etc/environment`, change `EDITOR` to `nvim`:
 
 ```bash
 EDITOR=nvim
 ```
 
 #### Useful Terminal Programs
+
+Install useful terminal programs:
 
 ```bash
 sudo pacman -S btop dust bat tldr lsd zoxide fastfetch tmux yazi
@@ -303,7 +338,7 @@ sudo pacman -S btop dust bat tldr lsd zoxide fastfetch tmux yazi
 - `eza` - Also better `ls`
 - `atuin` - Command history manager
 
-#### Looking cool
+#### Looking Cool
 
 - pipes.sh
 - cava
@@ -327,65 +362,87 @@ cp .tmux/.tmux.conf.local .
 
 #### Dotfiles with [Chezmoi](https://www.chezmoi.io)
 
-Download chezmoi first
+Download chezmoi first:
 
 ```bash
 sudo pacman -S chezmoi
 ```
 
+Initialize chezmoi with your dotfiles repository:
+
 ```bash
 chezmoi init git@github.com:$GITHUB_USERNAME/dotfiles.git
 ```
 
-To apply dotfiles interactively, simply run
+To apply dotfiles interactively, simply run:
 
 ```bash
 chezmoi -v apply
 ```
 
+---
+
 ### Internet Browser
+
+Install Zen Browser:
 
 ```bash
 sudo pacman -S zen-browser
 ```
 
-- install [Nebular theme](https://github.com/JustAdumbPrsn/Nebula-A-Minimal-Theme-for-Zen-Browser?tab=readme-ov-file)
-- install [ KDE force blur ](https://github.com/taj-ny/kwin-effects-forceblur)
+- Install [Nebular theme](https://github.com/JustAdumbPrsn/Nebula-A-Minimal-Theme-for-Zen-Browser?tab=readme-ov-file).
+- Install [KDE force blur](https://github.com/taj-ny/kwin-effects-forceblur):
 
 ```bash
 yay -S kwin-effects-forceblur
 ```
 
-- install [Transparent-zen](https://github.com/frostybiscuit/transparent-zen?tab=readme-ov-file) [here](https://addons.mozilla.org/en-US/firefox/addon/transparent-zen/)
+- Install [Transparent-zen](https://github.com/frostybiscuit/transparent-zen?tab=readme-ov-file) [here](https://addons.mozilla.org/en-US/firefox/addon/transparent-zen/).
 
-### Disk Usage analyzer
+---
+
+### Disk Usage Analyzer
+
+Install Filelight:
 
 ```bash
 sudo pacman -S filelight
 ```
 
+---
+
 ### Obsidian
+
+Install Obsidian:
 
 ```bash
 sudo pacman -S obsidian
 ```
 
-- automatically change input method in vim mode
-  download [plugin](https://www.obsidianstats.com/plugins/vim-im-select)
-  set `default IM` to `keyboard-us`
-  `obtaining command` to `/usr/bin/fcitx5-remote`
-  `switching command` to `/usr/bin/fcitx5-remote -s {im}`
+- Automatically change input method in vim mode:
+  - Download [plugin](https://www.obsidianstats.com/plugins/vim-im-select).
+  - Set `default IM` to `keyboard-us`.
+  - Set `obtaining command` to `/usr/bin/fcitx5-remote`.
+  - Set `switching command` to `/usr/bin/fcitx5-remote -s {im}`.
+
+---
 
 ### LibreOffice
+
+Install LibreOffice:
 
 ```bash
 sudo pacman -S libreoffice-still
 ```
 
-Goto View -> User interface and Select `Tabbed`, apply all.
-Goto Settings -> Load/Save -> General and change default file format to xlsx/pptx/docx.
+- Go to View -> User Interface and select `Tabbed`, apply all.
+- Go to Settings -> Load/Save -> General and change the default file format to xlsx/pptx/docx.
+
+---
 
 ### Bottles (For Running Windows Apps)
+
+Install Bottles:
 
 ```bash
 sudo pacman -Syu
@@ -401,7 +458,7 @@ flatpak install flathub com.github.tchx84.Flatseal
 ```
 
 Enable "All User Files" in Flatseal for Bottles.
-Also add this path to add desktop entry for Bottles:
+Also, add this path to add a desktop entry for Bottles:
 
 ```bash
 flatpak override com.usebottles.bottles --user --filesystem=xdg-data/applications
@@ -415,11 +472,13 @@ Download cjk fonts in Bottles -> dependencies.
 Download the latest version from [KakaoTalk](https://www.kakaocorp.com/page/service/service/KakaoTalk) and install it using Bottles.
 `Cafe` runner is better than `Soda` runner for KakaoTalk.
 
-After installation, set kakaotalk font to korean font in settings.
+After installation, set KakaoTalk font to Korean font in settings.
+
+---
 
 ### Zapret (DPI Circumvention)
 
-#### Download from AUR(recommended)
+#### Download from AUR (recommended)
 
 ```bash
 yay -S zapret
@@ -427,8 +486,8 @@ yay -S zapret
 
 #### Download Manually
 
-1. Download the latest release from [Zapret](https://github.com/bol-van/zapret/releases)
-2. Unzip and move it to `/opt/zapret`
+1. Download the latest release from [Zapret](https://github.com/bol-van/zapret/releases).
+2. Unzip and move it to `/opt/zapret`.
 3. Run:
 
 ```bash
@@ -443,6 +502,8 @@ sudo systemctl enable zapret
 sudo systemctl start zapret
 ```
 
+---
+
 ## Theme & Appearance
 
 ### GRUB Configuration
@@ -453,7 +514,7 @@ sudo systemctl start zapret
 
 1. Type `videoinfo` in the GRUB console to check available resolutions.
 2. Open `/etc/default/grub` and modify `GRUB_GFXMODE` with your desired resolution.
-3. run this command to set the resolution:
+3. Run this command to set the resolution:
 
 ```bash
 sudo update-grub
@@ -461,58 +522,61 @@ sudo update-grub
 
 #### Change GRUB Background
 
-- prepare an image that you want to set as a background.
-
-- run this command to convert the image to the correct format:
+1. Prepare an image that you want to set as a background.
+2. Run this command to convert the image to the correct format:
 
 ```bash
 sudo magick /path/to/image.png -resize 1920x1080 -depth 24 /boot/grub/background.png
 ```
 
-- open `/etc/default/grub` and modify `GRUB_BACKGROUND`
+3. Open `/etc/default/grub` and modify `GRUB_BACKGROUND`:
 
 ```config
 GRUB_BACKGROUND="/boot/grub/background.png"
 ```
 
-- then simply run this command to update grub:
+4. Run this command to update GRUB:
 
 ```bash
 sudo update-grub
 ```
 
-Make sure the output of this command contains `Found background: /path/to/image.png`
+Make sure the output of this command contains `Found background: /path/to/image.png`.
 
-#### Advanced GRUB theme configuration
+#### Advanced GRUB Theme Configuration
 
-Install `grub-customizer`
+Install `grub-customizer`.
 
-### SDDM(login screen)
+---
+
+### SDDM (Login Screen)
 
 #### Change Resolution
 
 Run `xrandr` in your user session to find your display output name (e.g., HDMI-1, eDP-1) and supported resolutions.
 
-Edit `/usr/share/sddm/scripts/Xsetup`
+Edit `/usr/share/sddm/scripts/Xsetup`:
 
 ```bash
 #!/bin/sh
 xrandr --output eDP-1 --mode 1920x1200
 ```
 
-Simply restart SDDM
+Restart SDDM:
 
 ```bash
 sudo systemctl restart sddm
 ```
 
-#### [Astronut theme](https://github.com/Keyitdev/sddm-astronaut-theme/tree/master?tab=readme-ov-file)
+#### [Astronut Theme](https://github.com/Keyitdev/sddm-astronaut-theme/tree/master?tab=readme-ov-file)
 
-Run automatic installation script
+Run the automatic installation script:
 
 ```bash
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/keyitdev/sddm-astronaut-theme/master/setup.sh)"
 ```
+
+---
 
 ### KDE
 
@@ -522,18 +586,18 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/keyitdev/sddm-astronaut-th
 
 #### Widgets
 
-[apdatifier](https://github.com/exequtic/apdatifier)
+- [apdatifier](https://github.com/exequtic/apdatifier)
+- [panel colorizer](https://store.kde.org/p/2130967)
 
-[panel colorizer](https://store.kde.org/p/2130967)
+#### Laggy on Alt-Tab
 
-#### laggy on Alt-Tab
-
-goto settings -> window management -> task switcher
-uncheck `show selected window`
+Go to Settings -> Window Management -> Task Switcher and uncheck `Show selected window`.
 
 #### Klassy
 
-[Github link](https://github.com/paulmcauley/klassy)
+[GitHub link](https://github.com/paulmcauley/klassy)
+
+Install Klassy:
 
 ```bash
 yay -S klassy
@@ -541,16 +605,16 @@ yay -S klassy
 
 #### KDE Wallpaper Engine
 
-See [this plugin](https://github.com/catsout/wallpaper-engine-kde-plugin)
+See [this plugin](https://github.com/catsout/wallpaper-engine-kde-plugin).
 
-Install Dependencies
+Install Dependencies:
 
 ```bash
 sudo pacman -S extra-cmake-modules plasma-framework5 gst-libav ninja \
 base-devel mpv python-websockets qt5-declarative qt5-websockets qt5-webchannel vulkan-headers cmake
 ```
 
-Build and Install
+Build and Install:
 
 ```bash
 # Download source
@@ -570,16 +634,16 @@ cmake --install build
 cmake --build build --target install_pkg
 ```
 
-Goto Settings -> Wallpaper and Select Wallpaper Engine for `wallpaper type`.
-Select Steamlibrary which is `~/.local/share/Steam` by default.
+Go to Settings -> Wallpaper and select Wallpaper Engine for `wallpaper type`.
+Select Steam library, which is `~/.local/share/Steam` by default.
 
 ---
 
 ## TODO
 
-- pinch to zoom
+- Pinch to zoom
 - Hybrid GPU (NVIDIA Prime or Optimus)
-- hyprland
+- Hyprland
 
 ---
 
@@ -589,14 +653,18 @@ Select Steamlibrary which is `~/.local/share/Steam` by default.
 
 #### Zsh & Oh-My-Zsh
 
+Install Zsh and Oh-My-Zsh:
+
 ```bash
 sudo pacman -S zsh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 ```
 
-Set default shell to Zsh by logging out and back in.
+Set the default shell to Zsh by logging out and back in.
 
 #### Powerlevel10k Theme
+
+Install Powerlevel10k theme:
 
 ```bash
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k"
@@ -608,16 +676,22 @@ Modify `~/.zshrc`:
 ZSH_THEME="powerlevel10k/powerlevel10k"
 ```
 
+---
+
 ### Hancom Office
+
+Install Hancom Office:
 
 ```bash
 yay -S hoffice
 sudo mv /opt/hnc/hoffice11/Bin/qt{,.bak}
 ```
 
+---
+
 ### WebCam Setting
 
-Check Hardware Detection
+Check Hardware Detection:
 
 ```bash
 lsusb
@@ -641,21 +715,19 @@ Check kernel messages for errors:
 dmesg | tail
 ```
 
-````bash
-
-Install Necessary Tools
+Install Necessary Tools:
 
 ```bash
 sudo pacman -S v4l-utils cheese mpv
-````
+```
 
-Permission
+Permission:
 
 ```bash
 sudo usermod -aG video $USER
 ```
 
-Test the webcam
+Test the webcam:
 
 ```bash
 mpv av://v4l2:/dev/video0
@@ -667,25 +739,25 @@ cheese
 
 ---
 
-## How to do things in terminal
+## How to Do Things in Terminal
 
-If you installed with KDE or other Desktop Environment, you can use GUI.
-This is for people who didn't install DE, or just curious about things.
+If you installed with KDE or another Desktop Environment, you can use the GUI.
+This is for people who didn't install DE or are just curious about things.
 
 ### Mount USB
 
 We will use `udisks2` to automatically mount USB devices.
 Make sure `udisks2` exists.
 
-- Plug in your USB drive
+- Plug in your USB drive.
 - Check the device name of your USB drive by running:
 
 ```bash
 lsblk
 ```
 
-This will list all block devices. In most case, your USB drive will likely be named something like `/dev/sdb1` or `/dev/sdc1` or `/dev/sda1`,
-the format of `/dev/sdXN`
+This will list all block devices. In most cases, your USB drive will likely be named something like `/dev/sdb1` or `/dev/sdc1` or `/dev/sda1`,
+the format of `/dev/sdXN`.
 
 - To mount a USB device:
 
@@ -693,20 +765,20 @@ the format of `/dev/sdXN`
 udiskctl mount -b /dev/sdXN
 ```
 
-USB drive will be mounted in `/run/media/$USER`
+The USB drive will be mounted in `/run/media/$USER`.
 
 ### Bluetooth Connection
 
 You can use `bluetoothctl`, but it's a bit complicated. Use `bluetui` instead.
-You can install `bluetui` with `pacman`
+You can install `bluetui` with `pacman`.
 
-In `bluetui`, `s` is for scan, `p` is for `pair`. Use `tab` to navigate throught menu.
+In `bluetui`, `s` is for scan, `p` is for pair. Use `tab` to navigate through the menu.
 
 ### Wifi Connection
 
 #### `iwctl`
 
-you can configure wifi with `iwctl`, but using `nmtui` in next line is much easier.
+You can configure wifi with `iwctl`, but using `nmtui` in the next line is much easier.
 
 - Display your Wifi stations:
 
@@ -714,7 +786,7 @@ you can configure wifi with `iwctl`, but using `nmtui` in next line is much easi
 iwctl station list
 ```
 
-mostly, station name is `wlan0`.
+Mostly, the station name is `wlan0`.
 
 - Start looking for networks with a station:
 
@@ -722,7 +794,7 @@ mostly, station name is `wlan0`.
 iwctl station station_name scan
 ```
 
-note that `scan` doesn't give any output
+Note that `scan` doesn't give any output.
 
 - Display the networks found by a station:
 
@@ -738,4 +810,4 @@ iwctl station station_name connect network_name
 
 #### `nmtui`
 
-`nmtui` stands for Network Manager TUI
+`nmtui` stands for Network Manager TUI.
